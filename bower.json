@@ -1,0 +1,23 @@
+{
+  "name": "personal-site",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ryanjurgensen/personal-site",
+  "authors": [
+    "Ryan Jurgensen <ryan.jurgensen@gmail.com>"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "webfontloader": "~1.5.6"
+  }
+}

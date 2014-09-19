@@ -89,3 +89,65 @@ td {
 a img {
   border: none;
 }
+body {
+  min-height: 4000px;
+}
+#container {
+  *zoom: 1;
+  width: auto;
+  max-width: 1440px;
+  float: none;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 0;
+  padding-right: 0;
+}
+#container:before,
+#container:after {
+  content: '';
+  display: table;
+}
+#container:after {
+  clear: both;
+}
+#fancy-logo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  background-color: #fff;
+  width: 100%;
+}
+#fancy-logo canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+}
+#fancy-logo h1 {
+  display: none;
+  text-align: center;
+  text-transform: uppercase;
+}
+#fancy-logo #background {
+  top: 6px;
+  z-index: 10;
+}
+#fancy-logo #mask {
+  z-index: 11;
+}
+#fancy-logo #logo-options {
+  position: absolute;
+  top: 120px;
+  left: 0;
+  right: 0;
+  z-index: 13;
+  display: none;
+  width: 350px;
+  margin: 0 auto;
+}
+#fancy-logo #logo-options a {
+  color: #c0c0c0;
+  margin-right: 20px;
+}

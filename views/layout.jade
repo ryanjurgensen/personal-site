@@ -2,8 +2,23 @@ doctype html
 html
   head
     title= title
+    script(src='/scripts/deps.js')
+    script(src='//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js')
+    script(src='/scripts/logo.js')
     link(rel='stylesheet', href='/styles/style.css')
   body
-    #header
-      h1 Ryan Jurgensen
-    block content
+    #container
+      #header
+        #fancy-logo
+          h1 Ryan Jurgensen
+          canvas(width="2040", height="150", id="mask")
+          canvas(width="20000", height="150", id="background")
+          #logo-options
+              a(href='#', id="stop-logo") stop it!
+              a(href='#') show pictures
+              a(href='#', id="reload-logo") randomize
+              a(href='#') see code
+      block content
+
+    script
+      | var logo = new portfolio.ScrollingLogo();

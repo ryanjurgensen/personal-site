@@ -118,7 +118,7 @@ portfolio.ScrollingLogo = function(){
 
 	WebFont.load({
 		google: {
-			families: [ 'Raleway:300,800,700,900:latin' ]
+			families: [ 'Raleway:300,800,700,900:latin', 'Lato:400,700:latin', 'Arvo::latin' ]
 		},
 		active: $.proxy(function() {
 			if($(window).width() > 1024){

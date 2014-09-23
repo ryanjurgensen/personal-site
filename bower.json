@@ -18,6 +18,7 @@
   ],
   "dependencies": {
     "jquery": "~2.1.1",
-    "webfontloader": "~1.5.6"
+    "webfontloader": "~1.5.6",
+    "fittext": "*"
   }
 }

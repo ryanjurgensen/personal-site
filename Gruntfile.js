@@ -28,10 +28,15 @@ module.exports = function(grunt) {
 	  },
 	  concat: {
 	    options: {
-	      separator: ';',
+	      separator: grunt.util.linefeed + ';' + grunt.util.linefeed,
+	      stripBanners: true
 	    },
 	    deps: {
-	      src: ['bower_components/jquery/dist/jquery.min.js'],
+	      src: [
+	      	'bower_components/jquery/dist/jquery.min.js',
+	      	'bower_components/fittext/fittext.js',
+
+	      ],
 	      dest: 'public/scripts/deps.js',
 	    },
 	  }

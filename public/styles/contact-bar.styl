@@ -1,0 +1,42 @@
+@keyframes pulsate-contact{
+  from{
+  	text-shadow: 1px 0px 4px rgba(0,102,213,0.91);
+  }
+  to{
+  	text-shadow: 1px 0px 25px rgba(0,102,213,0.91);
+  }
+}
+
+#contact-bar
+	fixed bottom left
+	width 100%
+	padding 0 40px
+	background rgba(0,0,0,.9)
+	color #F5F5F5
+	font-family 'Lato'
+
+	#contact-form
+		center()
+		margin 10px 0
+
+		*
+			display inline
+			vertical-align middle
+
+		input, textarea
+			font-size 17px
+			height 26px
+			col(2/10)
+
+		button
+			col(1/10)
+		h3
+			font-size 22px
+			col(3/10)
+			text-shadow: 1px 0px 4px rgba(0,102,213,0.91)
+			text-transform uppercase
+			animation pulsate-contact 2s ease-in-out
+			animation-iteration-count: infinite
+			animation-fill-mode: both
+			animation-direction: alternate
+			transition text-shadow 2.5s

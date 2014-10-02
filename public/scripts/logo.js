@@ -180,21 +180,21 @@ portfolio.ScrollingLogo.prototype.buildCompositeBackground = function(){
 
 portfolio.ScrollingLogo.prototype.createMask = function(){
 	var width = $(window).width(), textSize;
-	var textSize = width >= 1260 ? '140px' : '120px';
+	var textSize = width >= 1260 ? '120px' : '100px';
 	this.maskContext.fillStyle = '#fff';
-	this.maskContext.fillRect(0, 0, width, 150);
+	this.maskContext.fillRect(0, 0, width, 100);
     var oldGCO = this.maskContext.globalCompositeOperation;
 	this.maskContext.globalCompositeOperation = "destination-out";
 	this.maskContext.fillStyle = "blue";
 	this.maskContext.textAlign = 'center';
 	this.maskContext.font = "800 " +textSize+ " 'Raleway'";
-	this.maskContext.fillText(this.maskText, width / 2, 105);
+	this.maskContext.fillText(this.maskText, width / 2, 92);
 
 	this.maskContext.closePath();
 
 	this.maskContext.globalCompositeOperation = oldGCO;
 	this.maskContext.strokeStyle = "#C0C0C0";
-	this.maskContext.strokeText(this.maskText, width / 2, 105);
+	this.maskContext.strokeText(this.maskText, width / 2, 92);
 	$('#mask').fadeIn('fast');
 }
 

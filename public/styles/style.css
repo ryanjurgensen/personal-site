@@ -96,6 +96,9 @@ a img {
 body {
   min-height: 4000px;
 }
+pre {
+  margin-top: 150px;
+}
 #container {
   *zoom: 1;
   width: auto;
@@ -345,12 +348,100 @@ body {
   margin: 7px 0 15px 0;
   padding: 0 15px;
 }
-.tile small {
+.tile-row {
+  zoom: 1;
+  margin-bottom: 25px;
+  padding: 10px;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.22);
+  font-family: 'Lato';
+}
+.tile-row:before,
+.tile-row:after {
+  content: "";
+  display: table;
+}
+.tile-row:after {
+  clear: both;
+}
+.tile-row img {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 31.33333333333333%;
+  margin-left: 0%;
+  margin-right: 3%;
+}
+.tile-row img:before,
+.tile-row img:after {
+  content: '';
+  display: table;
+}
+.tile-row img:after {
+  clear: both;
+}
+.tile-row img:last-child {
+  margin-right: 0%;
+}
+.tile-row .description {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 65.66666666666666%;
+  margin-left: 0%;
+  margin-right: 3%;
+}
+.tile-row .description:before,
+.tile-row .description:after {
+  content: '';
+  display: table;
+}
+.tile-row .description:after {
+  clear: both;
+}
+.tile-row .description:last-child {
+  margin-right: 0%;
+}
+.tile-row h3 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+.tile-row p {
+  margin-bottom: 15px;
+}
+.tile-row small {
   color: #c9c5c5;
   font-style: italic;
   display: block;
   padding: 3px 0;
   font-size: 14px;
+}
+.tile-row.small {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 48.5%;
+  margin-left: 0%;
+  margin-right: 3%;
+  min-height: 220px;
+}
+.tile-row.small:before,
+.tile-row.small:after {
+  content: '';
+  display: table;
+}
+.tile-row.small:after {
+  clear: both;
+}
+.tile-row.small:nth-child(2n) {
+  margin-right: 0%;
+  float: right;
+}
+.tile-row.small:nth-child(2n+1) {
+  clear: both;
 }
 #contact-bar {
   position: fixed;
@@ -517,7 +608,6 @@ body {
   text-transform: uppercase;
 }
 #fancy-logo #background {
-  top: 6px;
   z-index: 10;
 }
 #fancy-logo #mask {

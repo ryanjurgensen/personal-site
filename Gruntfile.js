@@ -12,7 +12,7 @@ module.exports = function(grunt) {
 	  },
 	  watch: {
 	    express: {
-	      files:  [ '**/*.js'],
+	      files:  [ '**/*.js', '!node_modules/**/*.js', '!bower_components/**/*.js'],
 	      tasks:  [ 'express:dev' ],
 	      options: {
 	        spawn: false,
@@ -20,7 +20,7 @@ module.exports = function(grunt) {
 	      }
 	    },
 	    reload: {
-	    	files:  ['**/*.styl' ],
+	    	files:  ['public/**/*.styl' ],
 	      options: {
 	        livereload: true
 	      }
@@ -34,8 +34,6 @@ module.exports = function(grunt) {
 	    deps: {
 	      src: [
 	      	'bower_components/jquery/dist/jquery.min.js',
-	      	'bower_components/fittext/fittext.js',
-
 	      ],
 	      dest: 'public/scripts/deps.js',
 	    },

@@ -1,0 +1,136 @@
+
+      .small
+        .tile
+          img(src='/images/portfolio/gedu.png')
+          h3 Google Education
+          .details
+            small Website for Google product.
+            small Responsibilities: JavaScript, CSS, HTML, proprietary backend.
+            small Design and project management by Joystick Interactive.
+        
+        .tile
+          img(src='/images/portfolio/gedu-apps.png')
+          h3 Google Apps for Education
+          .details
+            small Website for Google product.
+              small Responsibilities: JavaScript, CSS, HTML, proprietary backend.
+              small Design and project management by Joystick Interactive.
+
+        .tile
+          img(src='/images/portfolio/gedu-cb.png')
+          h3 Google Chromebooks for Education
+          .details
+            small Website for Google product.
+              small Responsibilities: JavaScript, CSS, HTML, proprietary backend.
+              small Design and project management by Joystick Interactive.
+
+        .tile
+          img(src='/images/portfolio/gedu-tablets.png')
+          h3 Google Tablets for Education
+          .details
+            small Website for Google product.
+              small Responsibilities: JavaScript, CSS, HTML, proprietary backend.
+              small Design and project management by Joystick Interactive.
+
+      .large
+        .tile
+          img(src='/images/portfolio/dd.png')
+          h3 Dinner Dynamo
+          .details
+            small Web startup.
+            small Responsibilities: startup/MVP creation. Full stack. 
+
+        .tile
+          img(src='/images/portfolio/whap.png')
+          h3 Whap
+          .details
+            small Web startup.
+            small Responsibilities: startup/MVP creation. Full stack. 
+
+      .small
+        .tile
+          img(src='/images/portfolio/bfab.png')
+          h3 Building For America's Bravest
+          .details
+            small Non-profit fundraising platform.
+            small Responsibilities: full stack (PHP, WordPress, HTML, CSS, JavaScript, payment integration).
+            small Design and project management by Joystick Interactive.
+
+        .tile
+          img(src='/images/portfolio/locked.png')
+          h3 Meteor dashboard with PhantomJS scraper
+          .details
+            small Classified.
+            small Responsibilities: Node.js, Meteor, PhantomJS, HTML, CSS, JavaScript
+
+        .tile
+          img(src='/images/portfolio/3ds.png')
+          h3 3 Day Startup
+          .details
+            small WordPress multisite system with custom plugins.
+            small Responsibilities: full stack (PHP, WordPress, HTML, CSS, JavaScript)
+
+        .tile
+          img(src='/images/portfolio/hss.png')
+          h3 High School Startup
+          .details
+            small Software mentor for aspiring high school innovators.
+
+        .tile
+          img(src='/images/portfolio/atc.png')
+          h3 Annivsary Time Capsule
+          .details
+            small Web app for celebrating newly married couples.
+            small Responsibilities: CTO.
+
+        .tile
+          img(src='/images/portfolio/vpa.png')
+          h3 Google Vote Planner app
+          .details
+            small JavaScript app to showcase Google Civic API, and Sunlight Foundation API.
+            small Responsibilities: full stack (Python, JavaScript, HTML, CSS, Google App Engine).
+            small Agency: Joystick Interactive
+
+        .tile
+          img(src='/images/portfolio/bfe.png')
+          h3 Befrenemy
+          .details
+            small Web startup.
+            small Responsibilities: startup/MVP creation. Full stack. 
+
+        .tile
+          img(src='/images/portfolio/famigo.png')
+          h3 Famigo
+          .details
+            small Mobile app and website for curating apps for kids.
+            small Responsibilities: frontend web. 
+
+        .tile
+          img(src='/images/portfolio/wsd.png')
+          h3 Wellspring Direct
+          .details
+            small eCommerce startup for durable medical supplies.
+            small Responsibilities: CTO.
+
+        .tile
+          img(src='/images/portfolio/jl.png')
+          h3 Jonathan Louis Furniture
+          .details
+            small JavaScript app for ordering furniture.
+            small Responsibilities: full stack (PHP, JavaScript, HTML, CSS)
+            small Agency: Pushbutton Technologies
+
+        .tile
+          img(src='/images/portfolio/aci.png')
+          h3 Advanced Care, Inc.
+          .details
+            small WordPress site and custom intranet. 
+            small Responsibilities: full stack (PHP, JavaScript, HTML, CSS)
+
+        .tile
+          img(src='/images/portfolio/portfolio.png')
+          h3 Portfolio page (this site)
+          .details
+            small Responsibilities: full stack (Node.js, Express, Jade, Stylus, CoffeeScript, JavaScript)
+
+

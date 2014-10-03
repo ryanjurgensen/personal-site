@@ -8,13 +8,18 @@
 }
 
 #contact-bar
-  fixed bottom left
+  fixed bottom -60px left
   width 100%
   padding 0 40px
   background rgba(0,0,0,.9)
   color #F5F5F5
   font-family 'Lato'
-
+  animation bounceInUp 1.4s ease-in-out
+  animation-iteration-count: 1; 
+  animation-fill-mode: both
+  animation-delay: .1s;
+  height 100px
+  
   #contact-form
     center()
     margin 10px 0
@@ -52,10 +57,72 @@
     h3
       font-size 22px
       col(2/10)
-      text-shadow: 1px 0px 4px rgba(0,102,213,0.91)
+      //width auto
+      background-size 20px 30px
+      line-height 30px
       text-transform uppercase
-      animation pulsate-contact 2s ease-in-out
-      animation-iteration-count: infinite
+      background-position: left 0px top;
+      background-repeat no-repeat
+      
+    /*
+    #shiny
+      position relative
+      float left
+      margin-right 40px
+
+
+    #shine
+      //background: radial-gradient(ellipse 9px 15px, #fff, rgba(0,0,0,0));
+      background-size 20px 30px
+      height 30px
+      width 20px
+      absolute top left
+      //animation shine .4s ease-in-out;
+      animation-iteration-count: 1; 
       animation-fill-mode: both
       animation-direction: alternate
-      transition text-shadow 2.5s
+      animation-delay: .8s;
+    */
+
+@keyframes shine{
+  0%{
+    transform: translate3d(0,0,0);
+    opacity 1
+  }
+  50%{
+    opacity 1
+  }
+  100%{
+    transform: translate3d(200px, 0, 0);
+    opacity 0
+  }
+}
+
+// One animation pulled with love from https://github.com/daneden/animate.css
+@keyframes bounceInUp {
+  0%, 60%, 75%, 90%, 100% {
+    transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 3000px, 0);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translate3d(0, -20px, 0);
+  }
+
+  75% {
+    transform: translate3d(0, 10px, 0);
+  }
+
+  90% {
+    transform: translate3d(0, -5px, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}

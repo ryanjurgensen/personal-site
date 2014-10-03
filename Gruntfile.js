@@ -3,6 +3,13 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    bower: {
+	    install: {
+	    	options:{
+	    		targetDir: 'public/scripts/deps/'
+	    	}
+	    }
+	  },
     express: {
 	    dev: {
 	      options: {
@@ -33,8 +40,8 @@ module.exports = function(grunt) {
 	    },
 	    deps: {
 	      src: [
-	      	'bower_components/jquery/dist/jquery.min.js',
-	      	'bower_components/jquery.scrollTo/jquery.scrollTo.min.js',
+	      	'public/scripts/deps/jquery/jquery.js',
+	      	'public/scripts/deps/jquery.scrollTo/jquery.scrollTo.js',
 	      ],
 	      dest: 'public/scripts/deps.js',
 	    },
@@ -44,8 +51,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-express-server');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-bower-task');
 
   // Default task(s).
-  grunt.registerTask('default', ['concat:deps', 'express:dev', 'watch' ])
+  grunt.registerTask('default', ['bower:install', 'concat:deps', 'express:dev', 'watch' ])
 
 };

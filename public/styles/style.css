@@ -126,7 +126,7 @@ pre {
 }
 #intro {
   background-image: url("/images/me.png");
-  margin-top: 100px;
+  margin-top: 88px;
   width: 100%;
   height: 640px;
 }
@@ -141,29 +141,26 @@ pre {
   background: linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(255,255,255,0) 100%);
 }
 #intro .colored-content #intro-text {
-  *zoom: 1;
-  float: left;
-  clear: none;
-  text-align: inherit;
-  width: 58.8%;
-  margin-left: 0%;
-  margin-right: 3%;
-  padding: 60px 0 0 20px;
-}
-#intro .colored-content #intro-text:before,
-#intro .colored-content #intro-text:after {
-  content: '';
-  display: table;
-}
-#intro .colored-content #intro-text:after {
-  clear: both;
-}
-#intro .colored-content #intro-text:last-child {
-  margin-right: 0%;
+  width: 37%;
+  height: 640px;
+  padding: 40px 0 0 20px;
 }
 #intro .colored-content #intro-text h1 {
-  margin-bottom: 40px;
+  margin-bottom: 35px;
   font-size: 60px;
+}
+#intro .colored-content #intro-text h2,
+#intro .colored-content #intro-text h3,
+#intro .colored-content #intro-text h4 {
+  margin-bottom: 25px;
+}
+#intro .colored-content #intro-text h2 {
+  font-size: 28px;
+  line-height: 38px;
+}
+#intro .colored-content #intro-text h4 {
+  font-size: 22px;
+  line-height: 30px;
 }
 #intro .colored-content #intro-text .button {
   display: inline-block;
@@ -216,37 +213,13 @@ pre {
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
-#about .colored-content {
-  height: 100%;
-  padding: 0px 80px;
-  font-size: 22px;
-  background: rgba(4,56,114,0.71);
-}
-#about .colored-content h2,
-#about .colored-content h3,
-#about .colored-content h4 {
-  margin-bottom: 30px;
-  text-shadow: 0 0 1px #181818;
-}
-#about .colored-content h2 {
-  font-size: 35px;
-  line-height: 45px;
-}
-#about .colored-content h3 {
-  font-size: 28px;
-  line-height: 38px;
-}
-#about .colored-content h4 {
-  font-size: 22px;
-  line-height: 30px;
-}
 #portfolio {
   padding: 0 40px;
 }
 #portfolio h2 {
-  text-align: center;
+  text-align: left;
   text-decoration: underline;
-  margin: 40px 0;
+  margin: 40px 20px;
   font: 36px/48px 'Arvo', sans-serif;
   text-transform: uppercase;
 }

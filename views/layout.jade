@@ -24,11 +24,13 @@ html
 
     #contact-bar
       #contact-form
-        h3 Let's get started
+        h3 Let's get started #[span.arrow &#10148;]
         input(type='text', placeholder='Name')
         input(type='text', placeholder='Email')
-        textarea(placeholder='Tell us about your project.')
-        button Begin!
+        textarea(placeholder='Tell me a bit about your project.')
+        button Send
 
     script
       | var logo = new portfolio.ScrollingLogo();
+
+    script(src='/scripts/main.js')

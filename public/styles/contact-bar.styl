@@ -19,7 +19,15 @@
   animation-fill-mode: both
   animation-delay: .1s;
   height 100px
+  transition .4s height
   
+  &.expanded
+    height 200px
+    background rgba(0,0,0,1)
+
+    textarea
+      height 120px !important
+
   #contact-form
     center()
     margin 10px 0
@@ -59,11 +67,15 @@
       col(2/10)
       //width auto
       background-size 20px 30px
-      line-height 30px
+      line-height 26px
       text-transform uppercase
       background-position: left 0px top;
       background-repeat no-repeat
       
+      .arrow
+        display inline-block
+        padding 0 0 4px 5px
+        font-size 18px
     /*
     #shiny
       position relative

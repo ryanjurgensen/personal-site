@@ -125,15 +125,15 @@ pre {
   color: #fff;
 }
 #intro {
-  background-image: url("/images/me.png");
-  margin-top: 88px;
+  background-image: url("http://res.cloudinary.com/codifex/image/upload/c_crop,fl_progressive,g_north,h_1322,w_2820/c_scale,h_661,w_1440/v1412360803/me-src_mtalgk.jpg");
+  margin-top: 100px;
   width: 100%;
-  height: 640px;
+  height: 661px;
 }
 @media all and (-webkit-min-device-pixel-ratio:1.5),(min--moz-device-pixel-ratio:1.5),(-o-min-device-pixel-ratio:1.5/1),(min-device-pixel-ratio:1.5),(min-resolution:138dpi),(min-resolution:1.5dppx) {
   #intro {
-    background-image: url("/images/me@2x.png");
-    background-size: 1440px 640px;
+    background-image: url("http://res.cloudinary.com/codifex/image/upload/c_crop,fl_progressive,g_north,h_1322,w_2880/v1412360803/me-src_mtalgk.jpg");
+    background-size: 1440px 661px;
   }
 }
 #intro .colored-content {
@@ -438,6 +438,15 @@ pre {
   -ms-animation-delay: 0.1s;
   animation-delay: 0.1s;
   height: 100px;
+  -webkit-transition: 0.4s height;
+  transition: 0.4s height;
+}
+#contact-bar.expanded {
+  height: 200px;
+  background: #000;
+}
+#contact-bar.expanded textarea {
+  height: 120px !important;
 }
 #contact-bar #contact-form {
   *zoom: 1;
@@ -580,7 +589,7 @@ pre {
   margin-left: 0%;
   margin-right: 3%;
   background-size: 20px 30px;
-  line-height: 30px;
+  line-height: 26px;
   text-transform: uppercase;
   background-position: left 0px top;
   background-repeat: no-repeat;
@@ -595,6 +604,11 @@ pre {
 }
 #contact-bar #contact-form h3:last-child {
   margin-right: 0%;
+}
+#contact-bar #contact-form h3 .arrow {
+  display: inline-block;
+  padding: 0 0 4px 5px;
+  font-size: 18px;
 }
 @-webkit-keyframes pulsate-contact {
   0% {

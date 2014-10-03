@@ -10,3 +10,4 @@ build/Release
 node_modules
 .lock-wscript
 bower_components
+.DS_Store

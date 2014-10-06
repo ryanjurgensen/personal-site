@@ -42,6 +42,7 @@ module.exports = function(grunt) {
 	      src: [
 	      	'public/scripts/deps/jquery/jquery.js',
 	      	'public/scripts/deps/jquery.scrollTo/jquery.scrollTo.js',
+	      	'public/scripts/deps/raf.js',
 	      ],
 	      dest: 'public/scripts/deps.js',
 	    },

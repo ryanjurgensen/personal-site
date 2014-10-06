@@ -118,7 +118,7 @@ portfolio.ScrollingLogo = function(){
 
 	WebFont.load({
 		google: {
-			families: [ 'Raleway:300,800,700,900:latin', 'Lato:400,700:latin', 'Arvo::latin' ]
+			families: [ 'Raleway:800:latin']
 		},
 		active: $.proxy(function() {
 			if($(window).width() > 1024){
@@ -133,10 +133,7 @@ portfolio.ScrollingLogo = function(){
 
 portfolio.ScrollingLogo.prototype.start = function(){
 	$(document).scroll(function(e){
-	    var scrollAmount = $(window).scrollTop();
-	    var documentHeight = $(document).height();
-	    var scrollPercent = ((scrollAmount) / documentHeight);
-	    this.scrollToPercent(scrollPercent);
+		requestAnimationFrame(this.scrollHandler.bind(this));
 	}.bind(this));
 
 	$(window).on('resize', this.resize.bind(this));
@@ -230,9 +227,16 @@ portfolio.ScrollingLogo.prototype.reload = function(){
 	this.buildCompositeBackground();
 }
 
+portfolio.ScrollingLogo.prototype.scrollHandler = function(){
+	var scrollAmount = $(window).scrollTop();
+	var documentHeight = $(document).height();
+	var scrollPercent = ((scrollAmount) / documentHeight);
+	this.scrollToPercent(scrollPercent);
+}
+
 portfolio.ScrollingLogo.prototype.scrollToPercent = function(scrollPercent){
 	if(scrollPercent >= 0){
-		this.$canvas.css('left', (scrollPercent * this.totalBackgroundWidth) * -1);
+		this.$canvas.css('transform', 'translate3d('+ (scrollPercent * this.totalBackgroundWidth) * -1 + 'px, 0, 0)');
 	}
 }
 

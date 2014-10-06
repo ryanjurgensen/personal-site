@@ -9,3 +9,4 @@ $('#portfolioLink').click (e)->
 $('#contactLink').click (e)->
 	e.preventDefault()
 	expandContactBar()
+	$('#contactName').focus()

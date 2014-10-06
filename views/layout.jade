@@ -25,9 +25,9 @@ html
     #contact-bar
       #contact-form
         h3 Let's get started #[span.arrow &#10148;]
-        input(type='text', placeholder='Name')
-        input(type='text', placeholder='Email')
-        textarea(placeholder='Tell me a bit about your project.')
+        input#contactName(type='text', placeholder='Name')
+        input#contactEmail(type='text', placeholder='Email')
+        textarea#contactMessage(placeholder='Tell me about your project.')
         button Send
 
     script

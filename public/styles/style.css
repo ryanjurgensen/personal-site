@@ -496,6 +496,7 @@ pre {
 #contact-bar #contact-form button {
   font-size: 17px;
   height: 26px;
+  font-family: 'Lato';
 }
 #contact-bar #contact-form input {
   *zoom: 1;

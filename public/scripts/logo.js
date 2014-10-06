@@ -221,9 +221,12 @@ portfolio.ScrollingLogo.prototype.resize = function(){
 }
 
 portfolio.ScrollingLogo.prototype.reload = function(){
+	this.$canvas.fadeOut(100);
 	this.imageSections = [];
 	this.images = this.getRandomImages(this.images);
 	this.buildCompositeBackground();
+	this.$canvas.fadeIn(100);
+
 }
 
 portfolio.ScrollingLogo.prototype.scrollHandler = function(){

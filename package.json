@@ -5,6 +5,7 @@
   "scripts": {
     "start": "nodemon ./bin/www"
   },
+  "main" : "./bin/www",
   "dependencies": {
     "autoprefixer-stylus": "^0.3.0",
     "body-parser": "~1.8.1",

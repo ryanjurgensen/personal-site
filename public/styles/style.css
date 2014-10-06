@@ -1,4 +1,5 @@
 @import url("http://fonts.googleapis.com/css?family=Lato|Arvo:400,700");
+@import url("../scripts/deps/sweetalert/sweet-alert.css");
 html,
 body,
 div,
@@ -100,7 +101,7 @@ body {
 pre {
   margin-top: 150px;
 }
-#container {
+.container {
   *zoom: 1;
   width: auto;
   max-width: 1440px;
@@ -111,12 +112,12 @@ pre {
   padding-left: 0;
   padding-right: 0;
 }
-#container:before,
-#container:after {
+.container:before,
+.container:after {
   content: '';
   display: table;
 }
-#container:after {
+.container:after {
   clear: both;
 }
 .colored-content {
@@ -417,6 +418,23 @@ pre {
 .tile-row.small:nth-child(2n+1) {
   clear: both;
 }
+.sweet-alert * {
+  -moz-box-sizing: initial !important;
+  box-sizing: initial !important;
+}
+#email {
+  float: left;
+  margin-top: -70px;
+  text-transform: uppercase;
+  font-size: 16px;
+  display: none;
+}
+#email span.or {
+  display: block;
+}
+.expanded #email {
+  display: block;
+}
 #contact-bar {
   position: fixed;
   bottom: -60px;
@@ -493,8 +511,7 @@ pre {
   vertical-align: middle;
 }
 #contact-bar #contact-form input,
-#contact-bar #contact-form textarea,
-#contact-bar #contact-form button {
+#contact-bar #contact-form textarea {
   font-size: 17px;
   height: 26px;
   font-family: 'Lato';
@@ -539,7 +556,7 @@ pre {
 #contact-bar #contact-form textarea:last-child {
   margin-right: 0%;
 }
-#contact-bar #contact-form button {
+#contact-bar #contact-form #contactSend {
   *zoom: 1;
   float: left;
   clear: none;
@@ -570,15 +587,15 @@ pre {
   transition: box-shadow 2.5s;
   text-align: center;
 }
-#contact-bar #contact-form button:before,
-#contact-bar #contact-form button:after {
+#contact-bar #contact-form #contactSend:before,
+#contact-bar #contact-form #contactSend:after {
   content: '';
   display: table;
 }
-#contact-bar #contact-form button:after {
+#contact-bar #contact-form #contactSend:after {
   clear: both;
 }
-#contact-bar #contact-form button:last-child {
+#contact-bar #contact-form #contactSend:last-child {
   margin-right: 0%;
 }
 #contact-bar #contact-form h3 {
@@ -852,6 +869,7 @@ pre {
   left: 0;
   z-index: 9;
   background-color: #fff;
+  height: 100px;
   width: 100%;
 }
 #fancy-logo canvas {

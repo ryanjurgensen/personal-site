@@ -115,7 +115,6 @@ portfolio.ScrollingLogo = function(){
 	this.mask = $('#mask')[0];
 	this.maskContext = this.mask.getContext('2d');
 
-
 	WebFont.load({
 		google: {
 			families: [ 'Raleway:800:latin']

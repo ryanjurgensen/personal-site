@@ -9379,753 +9379,6 @@ return jQuery;
 }));
 
 ;
-/*!
- * jQuery Transit - CSS3 transitions and transformations
- * (c) 2011-2014 Rico Sta. Cruz
- * MIT Licensed.
- *
- * http://ricostacruz.com/jquery.transit
- * http://github.com/rstacruz/jquery.transit
- */
-
-/* jshint expr: true */
-
-;(function (root, factory) {
-
-  if (typeof define === 'function' && define.amd) {
-    define(['jquery'], factory);
-  } else if (typeof exports === 'object') {
-    module.exports = factory(require('jquery'));
-  } else {
-    factory(root.jQuery);
-  }
-
-}(this, function($) {
-
-  $.transit = {
-    version: "0.9.12",
-
-    // Map of $.css() keys to values for 'transitionProperty'.
-    // See https://developer.mozilla.org/en/CSS/CSS_transitions#Properties_that_can_be_animated
-    propertyMap: {
-      marginLeft    : 'margin',
-      marginRight   : 'margin',
-      marginBottom  : 'margin',
-      marginTop     : 'margin',
-      paddingLeft   : 'padding',
-      paddingRight  : 'padding',
-      paddingBottom : 'padding',
-      paddingTop    : 'padding'
-    },
-
-    // Will simply transition "instantly" if false
-    enabled: true,
-
-    // Set this to false if you don't want to use the transition end property.
-    useTransitionEnd: false
-  };
-
-  var div = document.createElement('div');
-  var support = {};
-
-  // Helper function to get the proper vendor property name.
-  // (`transition` => `WebkitTransition`)
-  function getVendorPropertyName(prop) {
-    // Handle unprefixed versions (FF16+, for example)
-    if (prop in div.style) return prop;
-
-    var prefixes = ['Moz', 'Webkit', 'O', 'ms'];
-    var prop_ = prop.charAt(0).toUpperCase() + prop.substr(1);
-
-    for (var i=0; i<prefixes.length; ++i) {
-      var vendorProp = prefixes[i] + prop_;
-      if (vendorProp in div.style) { return vendorProp; }
-    }
-  }
-
-  // Helper function to check if transform3D is supported.
-  // Should return true for Webkits and Firefox 10+.
-  function checkTransform3dSupport() {
-    div.style[support.transform] = '';
-    div.style[support.transform] = 'rotateY(90deg)';
-    return div.style[support.transform] !== '';
-  }
-
-  var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-
-  // Check for the browser's transitions support.
-  support.transition      = getVendorPropertyName('transition');
-  support.transitionDelay = getVendorPropertyName('transitionDelay');
-  support.transform       = getVendorPropertyName('transform');
-  support.transformOrigin = getVendorPropertyName('transformOrigin');
-  support.filter          = getVendorPropertyName('Filter');
-  support.transform3d     = checkTransform3dSupport();
-
-  var eventNames = {
-    'transition':       'transitionend',
-    'MozTransition':    'transitionend',
-    'OTransition':      'oTransitionEnd',
-    'WebkitTransition': 'webkitTransitionEnd',
-    'msTransition':     'MSTransitionEnd'
-  };
-
-  // Detect the 'transitionend' event needed.
-  var transitionEnd = support.transitionEnd = eventNames[support.transition] || null;
-
-  // Populate jQuery's `$.support` with the vendor prefixes we know.
-  // As per [jQuery's cssHooks documentation](http://api.jquery.com/jQuery.cssHooks/),
-  // we set $.support.transition to a string of the actual property name used.
-  for (var key in support) {
-    if (support.hasOwnProperty(key) && typeof $.support[key] === 'undefined') {
-      $.support[key] = support[key];
-    }
-  }
-
-  // Avoid memory leak in IE.
-  div = null;
-
-  // ## $.cssEase
-  // List of easing aliases that you can use with `$.fn.transition`.
-  $.cssEase = {
-    '_default':       'ease',
-    'in':             'ease-in',
-    'out':            'ease-out',
-    'in-out':         'ease-in-out',
-    'snap':           'cubic-bezier(0,1,.5,1)',
-    // Penner equations
-    'easeInCubic':    'cubic-bezier(.550,.055,.675,.190)',
-    'easeOutCubic':   'cubic-bezier(.215,.61,.355,1)',
-    'easeInOutCubic': 'cubic-bezier(.645,.045,.355,1)',
-    'easeInCirc':     'cubic-bezier(.6,.04,.98,.335)',
-    'easeOutCirc':    'cubic-bezier(.075,.82,.165,1)',
-    'easeInOutCirc':  'cubic-bezier(.785,.135,.15,.86)',
-    'easeInExpo':     'cubic-bezier(.95,.05,.795,.035)',
-    'easeOutExpo':    'cubic-bezier(.19,1,.22,1)',
-    'easeInOutExpo':  'cubic-bezier(1,0,0,1)',
-    'easeInQuad':     'cubic-bezier(.55,.085,.68,.53)',
-    'easeOutQuad':    'cubic-bezier(.25,.46,.45,.94)',
-    'easeInOutQuad':  'cubic-bezier(.455,.03,.515,.955)',
-    'easeInQuart':    'cubic-bezier(.895,.03,.685,.22)',
-    'easeOutQuart':   'cubic-bezier(.165,.84,.44,1)',
-    'easeInOutQuart': 'cubic-bezier(.77,0,.175,1)',
-    'easeInQuint':    'cubic-bezier(.755,.05,.855,.06)',
-    'easeOutQuint':   'cubic-bezier(.23,1,.32,1)',
-    'easeInOutQuint': 'cubic-bezier(.86,0,.07,1)',
-    'easeInSine':     'cubic-bezier(.47,0,.745,.715)',
-    'easeOutSine':    'cubic-bezier(.39,.575,.565,1)',
-    'easeInOutSine':  'cubic-bezier(.445,.05,.55,.95)',
-    'easeInBack':     'cubic-bezier(.6,-.28,.735,.045)',
-    'easeOutBack':    'cubic-bezier(.175, .885,.32,1.275)',
-    'easeInOutBack':  'cubic-bezier(.68,-.55,.265,1.55)'
-  };
-
-  // ## 'transform' CSS hook
-  // Allows you to use the `transform` property in CSS.
-  //
-  //     $("#hello").css({ transform: "rotate(90deg)" });
-  //
-  //     $("#hello").css('transform');
-  //     //=> { rotate: '90deg' }
-  //
-  $.cssHooks['transit:transform'] = {
-    // The getter returns a `Transform` object.
-    get: function(elem) {
-      return $(elem).data('transform') || new Transform();
-    },
-
-    // The setter accepts a `Transform` object or a string.
-    set: function(elem, v) {
-      var value = v;
-
-      if (!(value instanceof Transform)) {
-        value = new Transform(value);
-      }
-
-      // We've seen the 3D version of Scale() not work in Chrome when the
-      // element being scaled extends outside of the viewport.  Thus, we're
-      // forcing Chrome to not use the 3d transforms as well.  Not sure if
-      // translate is affectede, but not risking it.  Detection code from
-      // http://davidwalsh.name/detecting-google-chrome-javascript
-      if (support.transform === 'WebkitTransform' && !isChrome) {
-        elem.style[support.transform] = value.toString(true);
-      } else {
-        elem.style[support.transform] = value.toString();
-      }
-
-      $(elem).data('transform', value);
-    }
-  };
-
-  // Add a CSS hook for `.css({ transform: '...' })`.
-  // In jQuery 1.8+, this will intentionally override the default `transform`
-  // CSS hook so it'll play well with Transit. (see issue #62)
-  $.cssHooks.transform = {
-    set: $.cssHooks['transit:transform'].set
-  };
-
-  // ## 'filter' CSS hook
-  // Allows you to use the `filter` property in CSS.
-  //
-  //     $("#hello").css({ filter: 'blur(10px)' });
-  //
-  $.cssHooks.filter = {
-    get: function(elem) {
-      return elem.style[support.filter];
-    },
-    set: function(elem, value) {
-      elem.style[support.filter] = value;
-    }
-  };
-
-  // jQuery 1.8+ supports prefix-free transitions, so these polyfills will not
-  // be necessary.
-  if ($.fn.jquery < "1.8") {
-    // ## 'transformOrigin' CSS hook
-    // Allows the use for `transformOrigin` to define where scaling and rotation
-    // is pivoted.
-    //
-    //     $("#hello").css({ transformOrigin: '0 0' });
-    //
-    $.cssHooks.transformOrigin = {
-      get: function(elem) {
-        return elem.style[support.transformOrigin];
-      },
-      set: function(elem, value) {
-        elem.style[support.transformOrigin] = value;
-      }
-    };
-
-    // ## 'transition' CSS hook
-    // Allows you to use the `transition` property in CSS.
-    //
-    //     $("#hello").css({ transition: 'all 0 ease 0' });
-    //
-    $.cssHooks.transition = {
-      get: function(elem) {
-        return elem.style[support.transition];
-      },
-      set: function(elem, value) {
-        elem.style[support.transition] = value;
-      }
-    };
-  }
-
-  // ## Other CSS hooks
-  // Allows you to rotate, scale and translate.
-  registerCssHook('scale');
-  registerCssHook('scaleX');
-  registerCssHook('scaleY');
-  registerCssHook('translate');
-  registerCssHook('rotate');
-  registerCssHook('rotateX');
-  registerCssHook('rotateY');
-  registerCssHook('rotate3d');
-  registerCssHook('perspective');
-  registerCssHook('skewX');
-  registerCssHook('skewY');
-  registerCssHook('x', true);
-  registerCssHook('y', true);
-
-  // ## Transform class
-  // This is the main class of a transformation property that powers
-  // `$.fn.css({ transform: '...' })`.
-  //
-  // This is, in essence, a dictionary object with key/values as `-transform`
-  // properties.
-  //
-  //     var t = new Transform("rotate(90) scale(4)");
-  //
-  //     t.rotate             //=> "90deg"
-  //     t.scale              //=> "4,4"
-  //
-  // Setters are accounted for.
-  //
-  //     t.set('rotate', 4)
-  //     t.rotate             //=> "4deg"
-  //
-  // Convert it to a CSS string using the `toString()` and `toString(true)` (for WebKit)
-  // functions.
-  //
-  //     t.toString()         //=> "rotate(90deg) scale(4,4)"
-  //     t.toString(true)     //=> "rotate(90deg) scale3d(4,4,0)" (WebKit version)
-  //
-  function Transform(str) {
-    if (typeof str === 'string') { this.parse(str); }
-    return this;
-  }
-
-  Transform.prototype = {
-    // ### setFromString()
-    // Sets a property from a string.
-    //
-    //     t.setFromString('scale', '2,4');
-    //     // Same as set('scale', '2', '4');
-    //
-    setFromString: function(prop, val) {
-      var args =
-        (typeof val === 'string')  ? val.split(',') :
-        (val.constructor === Array) ? val :
-        [ val ];
-
-      args.unshift(prop);
-
-      Transform.prototype.set.apply(this, args);
-    },
-
-    // ### set()
-    // Sets a property.
-    //
-    //     t.set('scale', 2, 4);
-    //
-    set: function(prop) {
-      var args = Array.prototype.slice.apply(arguments, [1]);
-      if (this.setter[prop]) {
-        this.setter[prop].apply(this, args);
-      } else {
-        this[prop] = args.join(',');
-      }
-    },
-
-    get: function(prop) {
-      if (this.getter[prop]) {
-        return this.getter[prop].apply(this);
-      } else {
-        return this[prop] || 0;
-      }
-    },
-
-    setter: {
-      // ### rotate
-      //
-      //     .css({ rotate: 30 })
-      //     .css({ rotate: "30" })
-      //     .css({ rotate: "30deg" })
-      //     .css({ rotate: "30deg" })
-      //
-      rotate: function(theta) {
-        this.rotate = unit(theta, 'deg');
-      },
-
-      rotateX: function(theta) {
-        this.rotateX = unit(theta, 'deg');
-      },
-
-      rotateY: function(theta) {
-        this.rotateY = unit(theta, 'deg');
-      },
-
-      // ### scale
-      //
-      //     .css({ scale: 9 })      //=> "scale(9,9)"
-      //     .css({ scale: '3,2' })  //=> "scale(3,2)"
-      //
-      scale: function(x, y) {
-        if (y === undefined) { y = x; }
-        this.scale = x + "," + y;
-      },
-
-      // ### skewX + skewY
-      skewX: function(x) {
-        this.skewX = unit(x, 'deg');
-      },
-
-      skewY: function(y) {
-        this.skewY = unit(y, 'deg');
-      },
-
-      // ### perspectvie
-      perspective: function(dist) {
-        this.perspective = unit(dist, 'px');
-      },
-
-      // ### x / y
-      // Translations. Notice how this keeps the other value.
-      //
-      //     .css({ x: 4 })       //=> "translate(4px, 0)"
-      //     .css({ y: 10 })      //=> "translate(4px, 10px)"
-      //
-      x: function(x) {
-        this.set('translate', x, null);
-      },
-
-      y: function(y) {
-        this.set('translate', null, y);
-      },
-
-      // ### translate
-      // Notice how this keeps the other value.
-      //
-      //     .css({ translate: '2, 5' })    //=> "translate(2px, 5px)"
-      //
-      translate: function(x, y) {
-        if (this._translateX === undefined) { this._translateX = 0; }
-        if (this._translateY === undefined) { this._translateY = 0; }
-
-        if (x !== null && x !== undefined) { this._translateX = unit(x, 'px'); }
-        if (y !== null && y !== undefined) { this._translateY = unit(y, 'px'); }
-
-        this.translate = this._translateX + "," + this._translateY;
-      }
-    },
-
-    getter: {
-      x: function() {
-        return this._translateX || 0;
-      },
-
-      y: function() {
-        return this._translateY || 0;
-      },
-
-      scale: function() {
-        var s = (this.scale || "1,1").split(',');
-        if (s[0]) { s[0] = parseFloat(s[0]); }
-        if (s[1]) { s[1] = parseFloat(s[1]); }
-
-        // "2.5,2.5" => 2.5
-        // "2.5,1" => [2.5,1]
-        return (s[0] === s[1]) ? s[0] : s;
-      },
-
-      rotate3d: function() {
-        var s = (this.rotate3d || "0,0,0,0deg").split(',');
-        for (var i=0; i<=3; ++i) {
-          if (s[i]) { s[i] = parseFloat(s[i]); }
-        }
-        if (s[3]) { s[3] = unit(s[3], 'deg'); }
-
-        return s;
-      }
-    },
-
-    // ### parse()
-    // Parses from a string. Called on constructor.
-    parse: function(str) {
-      var self = this;
-      str.replace(/([a-zA-Z0-9]+)\((.*?)\)/g, function(x, prop, val) {
-        self.setFromString(prop, val);
-      });
-    },
-
-    // ### toString()
-    // Converts to a `transition` CSS property string. If `use3d` is given,
-    // it converts to a `-webkit-transition` CSS property string instead.
-    toString: function(use3d) {
-      var re = [];
-
-      for (var i in this) {
-        if (this.hasOwnProperty(i)) {
-          // Don't use 3D transformations if the browser can't support it.
-          if ((!support.transform3d) && (
-            (i === 'rotateX') ||
-            (i === 'rotateY') ||
-            (i === 'perspective') ||
-            (i === 'transformOrigin'))) { continue; }
-
-          if (i[0] !== '_') {
-            if (use3d && (i === 'scale')) {
-              re.push(i + "3d(" + this[i] + ",1)");
-            } else if (use3d && (i === 'translate')) {
-              re.push(i + "3d(" + this[i] + ",0)");
-            } else {
-              re.push(i + "(" + this[i] + ")");
-            }
-          }
-        }
-      }
-
-      return re.join(" ");
-    }
-  };
-
-  function callOrQueue(self, queue, fn) {
-    if (queue === true) {
-      self.queue(fn);
-    } else if (queue) {
-      self.queue(queue, fn);
-    } else {
-      self.each(function () {
-                fn.call(this);
-            });
-    }
-  }
-
-  // ### getProperties(dict)
-  // Returns properties (for `transition-property`) for dictionary `props`. The
-  // value of `props` is what you would expect in `$.css(...)`.
-  function getProperties(props) {
-    var re = [];
-
-    $.each(props, function(key) {
-      key = $.camelCase(key); // Convert "text-align" => "textAlign"
-      key = $.transit.propertyMap[key] || $.cssProps[key] || key;
-      key = uncamel(key); // Convert back to dasherized
-
-      // Get vendor specify propertie
-      if (support[key])
-        key = uncamel(support[key]);
-
-      if ($.inArray(key, re) === -1) { re.push(key); }
-    });
-
-    return re;
-  }
-
-  // ### getTransition()
-  // Returns the transition string to be used for the `transition` CSS property.
-  //
-  // Example:
-  //
-  //     getTransition({ opacity: 1, rotate: 30 }, 500, 'ease');
-  //     //=> 'opacity 500ms ease, -webkit-transform 500ms ease'
-  //
-  function getTransition(properties, duration, easing, delay) {
-    // Get the CSS properties needed.
-    var props = getProperties(properties);
-
-    // Account for aliases (`in` => `ease-in`).
-    if ($.cssEase[easing]) { easing = $.cssEase[easing]; }
-
-    // Build the duration/easing/delay attributes for it.
-    var attribs = '' + toMS(duration) + ' ' + easing;
-    if (parseInt(delay, 10) > 0) { attribs += ' ' + toMS(delay); }
-
-    // For more properties, add them this way:
-    // "margin 200ms ease, padding 200ms ease, ..."
-    var transitions = [];
-    $.each(props, function(i, name) {
-      transitions.push(name + ' ' + attribs);
-    });
-
-    return transitions.join(', ');
-  }
-
-  // ## $.fn.transition
-  // Works like $.fn.animate(), but uses CSS transitions.
-  //
-  //     $("...").transition({ opacity: 0.1, scale: 0.3 });
-  //
-  //     // Specific duration
-  //     $("...").transition({ opacity: 0.1, scale: 0.3 }, 500);
-  //
-  //     // With duration and easing
-  //     $("...").transition({ opacity: 0.1, scale: 0.3 }, 500, 'in');
-  //
-  //     // With callback
-  //     $("...").transition({ opacity: 0.1, scale: 0.3 }, function() { ... });
-  //
-  //     // With everything
-  //     $("...").transition({ opacity: 0.1, scale: 0.3 }, 500, 'in', function() { ... });
-  //
-  //     // Alternate syntax
-  //     $("...").transition({
-  //       opacity: 0.1,
-  //       duration: 200,
-  //       delay: 40,
-  //       easing: 'in',
-  //       complete: function() { /* ... */ }
-  //      });
-  //
-  $.fn.transition = $.fn.transit = function(properties, duration, easing, callback) {
-    var self  = this;
-    var delay = 0;
-    var queue = true;
-
-    var theseProperties = $.extend(true, {}, properties);
-
-    // Account for `.transition(properties, callback)`.
-    if (typeof duration === 'function') {
-      callback = duration;
-      duration = undefined;
-    }
-
-    // Account for `.transition(properties, options)`.
-    if (typeof duration === 'object') {
-      easing = duration.easing;
-      delay = duration.delay || 0;
-      queue = typeof duration.queue === "undefined" ? true : duration.queue;
-      callback = duration.complete;
-      duration = duration.duration;
-    }
-
-    // Account for `.transition(properties, duration, callback)`.
-    if (typeof easing === 'function') {
-      callback = easing;
-      easing = undefined;
-    }
-
-    // Alternate syntax.
-    if (typeof theseProperties.easing !== 'undefined') {
-      easing = theseProperties.easing;
-      delete theseProperties.easing;
-    }
-
-    if (typeof theseProperties.duration !== 'undefined') {
-      duration = theseProperties.duration;
-      delete theseProperties.duration;
-    }
-
-    if (typeof theseProperties.complete !== 'undefined') {
-      callback = theseProperties.complete;
-      delete theseProperties.complete;
-    }
-
-    if (typeof theseProperties.queue !== 'undefined') {
-      queue = theseProperties.queue;
-      delete theseProperties.queue;
-    }
-
-    if (typeof theseProperties.delay !== 'undefined') {
-      delay = theseProperties.delay;
-      delete theseProperties.delay;
-    }
-
-    // Set defaults. (`400` duration, `ease` easing)
-    if (typeof duration === 'undefined') { duration = $.fx.speeds._default; }
-    if (typeof easing === 'undefined')   { easing = $.cssEase._default; }
-
-    duration = toMS(duration);
-
-    // Build the `transition` property.
-    var transitionValue = getTransition(theseProperties, duration, easing, delay);
-
-    // Compute delay until callback.
-    // If this becomes 0, don't bother setting the transition property.
-    var work = $.transit.enabled && support.transition;
-    var i = work ? (parseInt(duration, 10) + parseInt(delay, 10)) : 0;
-
-    // If there's nothing to do...
-    if (i === 0) {
-      var fn = function(next) {
-        self.css(theseProperties);
-        if (callback) { callback.apply(self); }
-        if (next) { next(); }
-      };
-
-      callOrQueue(self, queue, fn);
-      return self;
-    }
-
-    // Save the old transitions of each element so we can restore it later.
-    var oldTransitions = {};
-
-    var run = function(nextCall) {
-      var bound = false;
-
-      // Prepare the callback.
-      var cb = function() {
-        if (bound) { self.unbind(transitionEnd, cb); }
-
-        if (i > 0) {
-          self.each(function() {
-            this.style[support.transition] = (oldTransitions[this] || null);
-          });
-        }
-
-        if (typeof callback === 'function') { callback.apply(self); }
-        if (typeof nextCall === 'function') { nextCall(); }
-      };
-
-      if ((i > 0) && (transitionEnd) && ($.transit.useTransitionEnd)) {
-        // Use the 'transitionend' event if it's available.
-        bound = true;
-        self.bind(transitionEnd, cb);
-      } else {
-        // Fallback to timers if the 'transitionend' event isn't supported.
-        window.setTimeout(cb, i);
-      }
-
-      // Apply transitions.
-      self.each(function() {
-        if (i > 0) {
-          this.style[support.transition] = transitionValue;
-        }
-        $(this).css(theseProperties);
-      });
-    };
-
-    // Defer running. This allows the browser to paint any pending CSS it hasn't
-    // painted yet before doing the transitions.
-    var deferredRun = function(next) {
-        this.offsetWidth; // force a repaint
-        run(next);
-    };
-
-    // Use jQuery's fx queue.
-    callOrQueue(self, queue, deferredRun);
-
-    // Chainability.
-    return this;
-  };
-
-  function registerCssHook(prop, isPixels) {
-    // For certain properties, the 'px' should not be implied.
-    if (!isPixels) { $.cssNumber[prop] = true; }
-
-    $.transit.propertyMap[prop] = support.transform;
-
-    $.cssHooks[prop] = {
-      get: function(elem) {
-        var t = $(elem).css('transit:transform');
-        return t.get(prop);
-      },
-
-      set: function(elem, value) {
-        var t = $(elem).css('transit:transform');
-        t.setFromString(prop, value);
-
-        $(elem).css({ 'transit:transform': t });
-      }
-    };
-
-  }
-
-  // ### uncamel(str)
-  // Converts a camelcase string to a dasherized string.
-  // (`marginLeft` => `margin-left`)
-  function uncamel(str) {
-    return str.replace(/([A-Z])/g, function(letter) { return '-' + letter.toLowerCase(); });
-  }
-
-  // ### unit(number, unit)
-  // Ensures that number `number` has a unit. If no unit is found, assume the
-  // default is `unit`.
-  //
-  //     unit(2, 'px')          //=> "2px"
-  //     unit("30deg", 'rad')   //=> "30deg"
-  //
-  function unit(i, units) {
-    if ((typeof i === "string") && (!i.match(/^[\-0-9\.]+$/))) {
-      return i;
-    } else {
-      return "" + i + units;
-    }
-  }
-
-  // ### toMS(duration)
-  // Converts given `duration` to a millisecond string.
-  //
-  // toMS('fast') => $.fx.speeds[i] => "200ms"
-  // toMS('normal') //=> $.fx.speeds._default => "400ms"
-  // toMS(10) //=> '10ms'
-  // toMS('100ms') //=> '100ms'  
-  //
-  function toMS(duration) {
-    var i = duration;
-
-    // Allow string durations like 'fast' and 'slow', without overriding numeric values.
-    if (typeof i === 'string' && (!i.match(/^[\-0-9\.]+/))) { i = $.fx.speeds[i] || $.fx.speeds._default; }
-
-    return unit(i, 'ms');
-  }
-
-  // Export some functions for testable-ness.
-  $.transit.getTransitionValue = getTransition;
-
-  return $;
-}));
-
-;
 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
 // http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
  
@@ -10157,3 +9410,694 @@ return jQuery;
             clearTimeout(id);
         };
 }());
+;
+// SweetAlert
+// 2014 (c) - Tristan Edwards
+// github.com/t4t5/sweetalert
+(function() {
+
+  var modalClass   = '.sweet-alert',
+      overlayClass = '.sweet-overlay',
+      alertTypes   = ['error', 'warning', 'info', 'success'];
+
+
+  /*
+   * Manipulate DOM
+   */
+
+  var getModal = function() {
+      return document.querySelector(modalClass);
+    },
+    getOverlay = function() {
+      return document.querySelector(overlayClass);
+    },
+    hasClass = function(elem, className) {
+      return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
+    },
+    addClass = function(elem, className) {
+      if (!hasClass(elem, className)) {
+        elem.className += ' ' + className;
+      }
+    },
+    removeClass = function(elem, className) {
+      var newClass = ' ' + elem.className.replace(/[\t\r\n]/g, ' ') + ' ';
+      if (hasClass(elem, className)) {
+        while (newClass.indexOf(' ' + className + ' ') >= 0) {
+          newClass = newClass.replace(' ' + className + ' ', ' ');
+        }
+        elem.className = newClass.replace(/^\s+|\s+$/g, '');
+      }
+    },
+    escapeHtml = function(str) {
+      var div = document.createElement('div');
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
+    },
+    _show = function(elem) {
+      elem.style.opacity = '';
+      elem.style.display = 'block';
+    },
+    show = function(elems) {
+      if (elems && !elems.length) {
+        return _show(elems);
+      }
+      for (var i = 0; i < elems.length; ++i) {
+        _show(elems[i]);
+      }
+    },
+    _hide = function(elem) {
+      elem.style.opacity = '';
+      elem.style.display = 'none';
+    },
+    hide = function(elems) {
+      if (elems && !elems.length) {
+        return _hide(elems);
+      }
+      for (var i = 0; i < elems.length; ++i) {
+        _hide(elems[i]);
+      }
+    },
+    isDescendant = function(parent, child) {
+      var node = child.parentNode;
+      while (node !== null) {
+        if (node === parent) {
+          return true;
+        }
+        node = node.parentNode;
+      }
+      return false;
+    },
+    getTopMargin = function(elem) {
+      elem.style.left = '-9999px';
+      elem.style.display = 'block';
+
+      var height = elem.clientHeight;
+      var padding = parseInt(getComputedStyle(elem).getPropertyValue('padding'), 10);
+
+      elem.style.left = '';
+      elem.style.display = 'none';
+      return ('-' + parseInt(height / 2 + padding) + 'px');
+    },
+    fadeIn = function(elem, interval) {
+      interval = interval || 16;
+      elem.style.opacity = 0;
+      elem.style.display = 'block';
+      var last = +new Date();
+      var tick = function() {
+        elem.style.opacity = +elem.style.opacity + (new Date() - last) / 100;
+        last = +new Date();
+
+        if (+elem.style.opacity < 1) {
+          setTimeout(tick, interval);
+        }
+      };
+      tick();
+    },
+    fadeOut = function(elem, interval) {
+      interval = interval || 16;
+      elem.style.opacity = 1;
+      var last = +new Date();
+      var tick = function() {
+        elem.style.opacity = +elem.style.opacity - (new Date() - last) / 100;
+        last = +new Date();
+
+        if (+elem.style.opacity > 0) {
+          setTimeout(tick, interval);
+        } else {
+          elem.style.display = 'none';
+        }
+      };
+      tick();
+    },
+    fireClick = function(node) {
+      // Taken from http://www.nonobtrusive.com/2011/11/29/programatically-fire-crossbrowser-click-event-with-javascript/
+      // Then fixed for today's Chrome browser.
+      if (MouseEvent) {
+        // Up-to-date approach
+        var mevt = new MouseEvent('click', {
+          view: window,
+          bubbles: false,
+          cancelable: true
+        });
+        node.dispatchEvent(mevt);
+      } else if ( document.createEvent ) {
+        // Fallback
+        var evt = document.createEvent('MouseEvents');
+        evt.initEvent('click', false, false);
+        node.dispatchEvent(evt);  
+      } else if( document.createEventObject ) {
+        node.fireEvent('onclick') ;  
+      } else if (typeof node.onclick === 'function' ) {
+        node.onclick();  
+      }
+    },
+    stopEventPropagation = function(e) {
+      // In particular, make sure the space bar doesn't scroll the main window.
+      if (typeof e.stopPropagation === 'function') {
+        e.stopPropagation();
+        e.preventDefault();
+      } else if (window.event && window.event.hasOwnProperty('cancelBubble')) {
+        window.event.cancelBubble = true;
+      }
+    };
+
+  // Remember state in cases where opening and handling a modal will fiddle with it.
+  var previousActiveElement,
+      previousDocumentClick,
+      previousWindowKeyDown,
+      lastFocusedButton;
+
+  /*
+   * Add modal + overlay to DOM
+   */
+
+  function initialize() {
+    var sweetHTML = '<div class="sweet-overlay" tabIndex="-1"></div><div class="sweet-alert" tabIndex="-1"><div class="icon error"><span class="x-mark"><span class="line left"></span><span class="line right"></span></span></div><div class="icon warning"> <span class="body"></span> <span class="dot"></span> </div> <div class="icon info"></div> <div class="icon success"> <span class="line tip"></span> <span class="line long"></span> <div class="placeholder"></div> <div class="fix"></div> </div> <div class="icon custom"></div> <h2>Title</h2><p>Text</p><button class="cancel" tabIndex="2">Cancel</button><button class="confirm" tabIndex="1">OK</button></div>',
+        sweetWrap = document.createElement('div');
+
+    sweetWrap.innerHTML = sweetHTML;
+
+    // For readability: check sweet-alert.html
+    document.body.appendChild(sweetWrap);
+
+    // For development use only!
+    /*jQuery.ajax({
+        url: '../lib/sweet-alert.html', // Change path depending on file location
+        dataType: 'html'
+      })
+      .done(function(html) {
+        jQuery('body').append(html);
+      });*/
+  }
+
+
+
+  /*
+   * Global sweetAlert function
+   */
+
+  window.sweetAlert = window.swal = function() {
+
+    // Default parameters
+    var params = {
+      title: '',
+      text: '',
+      type: null,
+      allowOutsideClick: false,
+      showCancelButton: false,
+      confirmButtonText: 'OK',
+      confirmButtonColor: '#AEDEF4',
+      cancelButtonText: 'Cancel',
+      imageUrl: null,
+      imageSize: null
+    };
+
+    if (arguments[0] === undefined) {
+      window.console.error('sweetAlert expects at least 1 attribute!');
+      return false;
+    }
+
+
+    switch (typeof arguments[0]) {
+
+      case 'string':
+        params.title = arguments[0];
+        params.text  = arguments[1] || '';
+        params.type  = arguments[2] || '';
+
+        break;
+
+      case 'object':
+        if (arguments[0].title === undefined) {
+          window.console.error('Missing "title" argument!');
+          return false;
+        }
+
+        params.title              = arguments[0].title;
+        params.text               = arguments[0].text || params.text;
+        params.type               = arguments[0].type || params.type;
+        params.allowOutsideClick  = arguments[0].allowOutsideClick || params.allowOutsideClick;
+        params.showCancelButton   = arguments[0].showCancelButton || params.showCancelButton;
+
+        // Show "Confirm" instead of "OK" if cancel button is visible
+        params.confirmButtonText  = (params.showCancelButton) ? 'Confirm' : params.confirmButtonText;
+
+        params.confirmButtonText  = arguments[0].confirmButtonText || params.confirmButtonText;
+        params.confirmButtonColor = arguments[0].confirmButtonColor || params.confirmButtonColor;
+        params.cancelButtonText   = arguments[0].cancelButtonText || params.cancelButtonText;
+        params.imageUrl           = arguments[0].imageUrl || params.imageUrl;
+        params.imageSize          = arguments[0].imageSize || params.imageSize;
+        params.doneFunction       = arguments[1] || null;
+
+        break;
+
+      default:
+        window.console.error('Unexpected type of argument! Expected "string" or "object", got ' + typeof arguments[0]);
+        return false;
+
+    }
+
+    //console.log(params.confirmButtonColor);
+
+    setParameters(params);
+    fixVerticalPosition();
+    openModal();
+
+
+    // Modal interactions
+    var modal = getModal();
+
+    // Mouse interactions
+    var onButtonEvent = function(e) {
+
+      var target = e.target || e.srcElement,
+          targetedConfirm    = (target.className === 'confirm'),
+          modalIsVisible     = hasClass(modal, 'visible'),
+          doneFunctionExists = (params.doneFunction && modal.getAttribute('data-has-done-function') === 'true');
+
+      switch (e.type) {
+        case ("mouseover"):
+          if (targetedConfirm) {
+            e.target.style.backgroundColor = colorLuminance(params.confirmButtonColor, -0.04);
+          }
+          break;
+        case ("mouseout"):
+          if (targetedConfirm) {
+            e.target.style.backgroundColor = params.confirmButtonColor;
+          }
+          break;
+        case ("mousedown"):
+          if (targetedConfirm) {
+            e.target.style.backgroundColor = colorLuminance(params.confirmButtonColor, -0.14);
+          }
+          break;
+        case ("mouseup"):
+          if (targetedConfirm) {
+            e.target.style.backgroundColor = colorLuminance(params.confirmButtonColor, -0.04);
+          }
+          break;
+        case ("focus"):
+          var $confirmButton = modal.querySelector('button.confirm'),
+              $cancelButton  = modal.querySelector('button.cancel');
+
+          if (targetedConfirm) {
+            $cancelButton.style.boxShadow = 'none';
+          } else {
+            $confirmButton.style.boxShadow = 'none';
+          }
+          break;
+        case ("click"):
+          if (targetedConfirm && doneFunctionExists && modalIsVisible) {
+            params.doneFunction();
+          }
+          closeModal();
+          break;
+      }
+    };
+
+    var $buttons = modal.querySelectorAll('button');
+    for (var i = 0; i < $buttons.length; i++) {
+      $buttons[i].onclick     = onButtonEvent;
+      $buttons[i].onmouseover = onButtonEvent;
+      $buttons[i].onmouseout  = onButtonEvent;
+      $buttons[i].onmousedown = onButtonEvent;
+      //$buttons[i].onmouseup   = onButtonEvent;
+      $buttons[i].onfocus     = onButtonEvent;
+    }
+
+    // Remember the current document.onclick event.
+    previousDocumentClick = document.onclick;
+    document.onclick = function(e) {
+      var target = e.target || e.srcElement;
+
+      var clickedOnModal = (modal === target),
+          clickedOnModalChild = isDescendant(modal, e.target),
+          modalIsVisible = hasClass(modal, 'visible'),
+          outsideClickIsAllowed = modal.getAttribute('data-allow-ouside-click') === 'true';
+
+      if (!clickedOnModal && !clickedOnModalChild && modalIsVisible && outsideClickIsAllowed) {
+        closeModal();
+      }
+    };
+
+
+    // Keyboard interactions
+    var $okButton = modal.querySelector('button.confirm'),
+        $cancelButton = modal.querySelector('button.cancel'),
+        $modalButtons = modal.querySelectorAll('button:not([type=hidden])');
+
+
+    function handleKeyDown(e) {
+      var keyCode = e.keyCode || e.which;
+
+      if ([9,13,32,27].indexOf(keyCode) === -1) {
+        // Don't do work on keys we don't care about.
+        return;
+      }
+
+      var $targetElement = e.target || e.srcElement;
+
+      var btnIndex = -1; // Find the button - note, this is a nodelist, not an array.
+      for (var i = 0; i < $modalButtons.length; i++) {
+        if ($targetElement === $modalButtons[i]) {
+          btnIndex = i;
+          break;
+        }
+      }
+
+      if (keyCode === 9) {
+        // TAB
+        if (btnIndex === -1) {
+          // No button focused. Jump to the confirm button.
+          $targetElement = $okButton;
+        } else {
+          // Cycle to the next button
+          if (btnIndex === $modalButtons.length - 1) {
+            $targetElement = $modalButtons[0];
+          } else {
+            $targetElement = $modalButtons[btnIndex + 1];
+          }
+        }
+
+        stopEventPropagation(e);
+        $targetElement.focus();
+        setFocusStyle($targetElement, params.confirmButtonColor); // TODO
+
+      } else {
+        if (keyCode === 13 || keyCode === 32) {
+            if (btnIndex === -1) {
+              // ENTER/SPACE clicked outside of a button.
+              $targetElement = $okButton;
+            } else {
+              // Do nothing - let the browser handle it.
+              $targetElement = undefined;
+            }
+        } else if (keyCode === 27 && !($cancelButton.hidden || $cancelButton.style.display === 'none')) {
+          // ESC to cancel only if there's a cancel button displayed (like the alert() window).
+          $targetElement = $cancelButton;
+        } else {
+          // Fallback - let the browser handle it.
+          $targetElement = undefined;
+        }
+
+        if ($targetElement !== undefined) {
+          fireClick($targetElement, e);
+        }
+      }
+    }
+
+    previousWindowKeyDown = window.onkeydown;
+    window.onkeydown = handleKeyDown;
+
+    function handleOnBlur(e) {
+      var $targetElement = e.target || e.srcElement,
+          $focusElement = e.relatedTarget,
+          modalIsVisible = hasClass(modal, 'visible');
+
+      if (modalIsVisible) {
+        var btnIndex = -1; // Find the button - note, this is a nodelist, not an array.
+
+        if ($focusElement !== null) {
+          // If we picked something in the DOM to focus to, let's see if it was a button.
+          for (var i = 0; i < $modalButtons.length; i++) {
+            if ($focusElement === $modalButtons[i]) {
+              btnIndex = i;
+              break;
+            }
+          }
+
+          if (btnIndex === -1) {
+            // Something in the dom, but not a visible button. Focus back on the button.
+            $targetElement.focus();
+          }
+        } else {
+          // Exiting the DOM (e.g. clicked in the URL bar);
+          lastFocusedButton = $targetElement;
+        }
+      }
+    }
+
+    $okButton.onblur = handleOnBlur;
+    $cancelButton.onblur = handleOnBlur;
+
+    window.onfocus = function() {
+      // When the user has focused away and focused back from the whole window.
+      window.setTimeout(function() {
+        // Put in a timeout to jump out of the event sequence. Calling focus() in the event
+        // sequence confuses things.
+        if (lastFocusedButton !== undefined) {
+          lastFocusedButton.focus();
+          lastFocusedButton = undefined;
+        }        
+      }, 0);
+    };
+  };
+
+
+  /*
+   * Set type, text and actions on modal
+   */
+
+  function setParameters(params) {
+    var modal = getModal();
+
+    var $title = modal.querySelector('h2'),
+        $text = modal.querySelector('p'),
+        $cancelBtn = modal.querySelector('button.cancel'),
+        $confirmBtn = modal.querySelector('button.confirm');
+
+    // Title
+    $title.innerHTML = escapeHtml(params.title);
+
+    // Text
+    $text.innerHTML = escapeHtml(params.text || '');
+    if (params.text) {
+      show($text);
+    }
+
+    // Icon
+    hide(modal.querySelectorAll('.icon'));
+    if (params.type) {
+      var validType = false;
+      for (var i = 0; i < alertTypes.length; i++) {
+        if (params.type === alertTypes[i]) {
+          validType = true;
+          break;
+        }
+      }
+      if (!validType) {
+        window.console.error('Unknown alert type: ' + params.type);
+        return false;
+      }
+      var $icon = modal.querySelector('.icon.' + params.type);
+      show($icon);
+
+      // Animate icon
+      switch (params.type) {
+        case "success":
+          addClass($icon, 'animate');
+          addClass($icon.querySelector('.tip'), 'animateSuccessTip');
+          addClass($icon.querySelector('.long'), 'animateSuccessLong');
+          break;
+        case "error":
+          addClass($icon, 'animateErrorIcon');
+          addClass($icon.querySelector('.x-mark'), 'animateXMark');
+          break;
+        case "warning":
+          addClass($icon, 'pulseWarning');
+          addClass($icon.querySelector('.body'), 'pulseWarningIns');
+          addClass($icon.querySelector('.dot'), 'pulseWarningIns');
+          break;
+      }
+
+    }
+
+    // Custom image
+    if (params.imageUrl) {
+      var $customIcon = modal.querySelector('.icon.custom');
+
+      $customIcon.style.backgroundImage = 'url(' + params.imageUrl + ')';
+      show($customIcon);
+
+      var _imgWidth  = 80,
+          _imgHeight = 80;
+
+      if (params.imageSize) {
+        var imgWidth  = params.imageSize.split('x')[0];
+        var imgHeight = params.imageSize.split('x')[1];
+
+        if (!imgWidth || !imgHeight) {
+          window.console.error("Parameter imageSize expects value with format WIDTHxHEIGHT, got " + params.imageSize);
+        } else {
+          _imgWidth  = imgWidth;
+          _imgHeight = imgHeight;
+
+          $customIcon.css({
+            'width': imgWidth + 'px',
+            'height': imgHeight + 'px'
+          });
+        }
+      }
+      $customIcon.setAttribute('style', $customIcon.getAttribute('style') + 'width:' + _imgWidth + 'px; height:' + _imgHeight + 'px');
+    }
+
+    // Cancel button
+    modal.setAttribute('data-has-cancel-button', params.showCancelButton);
+    if (params.showCancelButton) {
+      $cancelBtn.style.display = 'inline-block';
+    } else {
+      hide($cancelBtn);
+    }
+
+    // Edit text on cancel and confirm buttons
+    if (params.cancelButtonText) {
+      $cancelBtn.innerHTML = escapeHtml(params.cancelButtonText);
+    }
+    if (params.confirmButtonText) {
+      $confirmBtn.innerHTML = escapeHtml(params.confirmButtonText);
+    }
+
+    // Set confirm button to selected background color
+    $confirmBtn.style.backgroundColor = params.confirmButtonColor;
+
+    // Set box-shadow to default focused button
+    setFocusStyle($confirmBtn, params.confirmButtonColor);
+
+    // Allow outside click?
+    modal.setAttribute('data-allow-ouside-click', params.allowOutsideClick);
+
+    // Done-function
+    var hasDoneFunction = (params.doneFunction) ? true : false;
+    modal.setAttribute('data-has-done-function', hasDoneFunction);
+  }
+
+
+  /*
+   * Set hover, active and focus-states for buttons (source: http://www.sitepoint.com/javascript-generate-lighter-darker-color)
+   */
+   
+  function colorLuminance(hex, lum) {
+    // Validate hex string
+    hex = String(hex).replace(/[^0-9a-f]/gi, '');
+    if (hex.length < 6) {
+      hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+    }
+    lum = lum || 0;
+
+    // Convert to decimal and change luminosity
+    var rgb = "#", c, i;
+    for (i = 0; i < 3; i++) {
+      c = parseInt(hex.substr(i*2,2), 16);
+      c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+      rgb += ("00"+c).substr(c.length);
+    }
+
+    return rgb;
+  }
+
+  function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? parseInt(result[1], 16) + ', ' + parseInt(result[2], 16) + ', ' + parseInt(result[3], 16) : null;
+  }
+
+  // Add box-shadow style to button (depending on its chosen bg-color)
+  function setFocusStyle($button, bgColor) {
+    var rgbColor = hexToRgb(bgColor);
+    $button.style.boxShadow = '0 0 2px rgba(' + rgbColor +', 0.8), inset 0 0 0 1px rgba(0, 0, 0, 0.05)';
+  }
+
+
+
+  /*
+   * Animations
+   */
+
+  function openModal() {
+    var modal = getModal();
+    fadeIn(getOverlay(), 10);
+    show(modal);
+    addClass(modal, 'showSweetAlert');
+    removeClass(modal, 'hideSweetAlert');
+
+    previousActiveElement = document.activeElement;
+    var $okButton = modal.querySelector('button.confirm');
+    $okButton.focus();
+
+    setTimeout(function() {
+      addClass(modal, 'visible');
+    }, 500);
+  }
+
+  function closeModal() {
+    var modal = getModal();
+    fadeOut(getOverlay(), 5);
+    fadeOut(modal, 5);
+    removeClass(modal, 'showSweetAlert');
+    addClass(modal, 'hideSweetAlert');
+    removeClass(modal, 'visible');
+
+
+    // Reset icon animations
+
+    var $successIcon = modal.querySelector('.icon.success');
+    removeClass($successIcon, 'animate');
+    removeClass($successIcon.querySelector('.tip'), 'animateSuccessTip');
+    removeClass($successIcon.querySelector('.long'), 'animateSuccessLong');
+
+    var $errorIcon = modal.querySelector('.icon.error');
+    removeClass($errorIcon, 'animateErrorIcon');
+    removeClass($errorIcon.querySelector('.x-mark'), 'animateXMark');
+
+    var $warningIcon = modal.querySelector('.icon.warning');
+    removeClass($warningIcon, 'pulseWarning');
+    removeClass($warningIcon.querySelector('.body'), 'pulseWarningIns');
+    removeClass($warningIcon.querySelector('.dot'), 'pulseWarningIns');
+
+
+    // Reset the page to its previous state
+    window.onkeydown = previousWindowKeyDown;
+    document.onclick = previousDocumentClick;
+    if (previousActiveElement) {
+      previousActiveElement.focus();
+    }
+    lastFocusedButton = undefined;
+  }
+
+
+  /*
+   * Set "margin-top"-property on modal based on its computed height
+   */
+
+  function fixVerticalPosition() {
+    var modal = getModal();
+
+    modal.style.marginTop = getTopMargin(getModal());
+  }
+
+
+
+  /*
+   * If library is injected after page has loaded
+   */
+
+  (function () {
+	  if (document.readyState === "complete" || document.readyState === "interactive") {
+		  initialize();
+	  } else {
+		  if (document.addEventListener) {
+			  document.addEventListener('DOMContentLoaded', function factorial() {
+				  document.removeEventListener('DOMContentLoaded', arguments.callee, false);
+				  initialize();
+			  }, false);
+		  } else if (document.attachEvent) {
+			  document.attachEvent('onreadystatechange', function() {
+				  if (document.readyState === 'complete') {
+					  document.detachEvent('onreadystatechange', arguments.callee);
+					  initialize();
+				  }
+			  });
+		  }
+	  }
+  })();
+
+})();

@@ -5,11 +5,9 @@ html
     script(src='/scripts/deps.js')
     script(src='//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js')
     script(src='/scripts/logo.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.0.0/isotope.pkgd.min.js')
-
     link(rel='stylesheet', href='/styles/style.css')
   body
-    #container
+    .container
       #header
         #fancy-logo
           h1 Ryan Jurgensen
@@ -20,17 +18,21 @@ html
               a(href='#') show pictures
               a(href='#', id="reload-logo") randomize
               a(href='#') see code
+
+          script
+            | var logo = new portfolio.ScrollingLogo();
+      
       block content
 
     #contact-bar
-      #contact-form
-        h3 Let's get started #[span.arrow &#10148;]
-        input#contactName(type='text', placeholder='Name')
-        input#contactEmail(type='text', placeholder='Email')
-        textarea#contactMessage(placeholder='Tell me about your project.')
-        button Send
-
-    script
-      | var logo = new portfolio.ScrollingLogo();
+      .container
+        #contact-form
+          h3 Let's get started #[span.arrow &#10148;]
+          form
+            input#contactName(type='text', placeholder='Name', required)
+            input#contactEmail(placeholder='Email', type="email", required)
+            textarea#contactMessage(placeholder='Tell me about your project.')
+            input(type="submit", value="Send")#contactSend
+        h4#email Or send me an email at ryan@ryanjurgensen.com
 
     script(src='/scripts/main.js')

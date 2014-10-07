@@ -4,6 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var csrf    = require('csurf');
 
 var app = express();
 var routes = require('./routes/index');
@@ -18,6 +20,8 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({secret: process.env.PERSONALSECRET}));
+app.use(csrf());
 
 app.use(require('./middleware/stylus'));
 app.use(require('coffee-middleware')({src: __dirname + '/public', compress: true}));
@@ -56,5 +60,10 @@ app.use(function(err, req, res, next) {
     });
 });
 
+// CSRF handler
+app.use(function (err, req, res, next) {
+  if (err.code !== 'EBADCSRFTOKEN') return next(err)
+  res.send(403)
+});
 
 module.exports = app;

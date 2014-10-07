@@ -19,7 +19,6 @@ retina(path, retina_path, w = auto, h = auto, min_pixel_ratio = 1.5)
 
   @media s
     ext = extname(path)
-    path = pathjoin(dirname(path), basename(path, ext) + '@2x' + ext)
     background-image: url(retina_path)
     if w in (cover contain) and h == auto
         h = null

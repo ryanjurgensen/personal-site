@@ -1,0 +1,72 @@
+full_intro_height = 661px
+
+#intro
+  margin-top 100px
+  width 100%
+  height full_intro_height
+  position relative
+
+  #intro-image
+    retina 'http://res.cloudinary.com/codifex/image/upload/c_crop,fl_progressive,g_north,h_1322,w_2820/c_scale,h_661,w_1440/v1412360803/me-src_mtalgk.jpg' 'http://res.cloudinary.com/codifex/image/upload/c_crop,fl_progressive,g_north,h_1322,w_2880/v1412360803/me-src_mtalgk.jpg' 1440px full_intro_height
+    width 100%
+    height full_intro_height
+    position absolute
+    z-index 9
+
+  #intro-text-container
+    position absolute
+    z-index 10
+
+  .colored-content
+    background linear-gradient(left, rgba(0,0,0,.8) 0%, rgba(255,255,255,0) 100%)
+
+    #intro-text
+      width 37%
+      height full_intro_height
+      padding 40px 0 0 20px
+
+      h1
+        margin-bottom 35px
+        font-size 60px
+
+      h2, h3, h4
+        margin-bottom 25px
+
+      h2
+        font-size 28px
+        line-height 38px
+
+      h4 
+        font-size 22px
+        line-height 30px
+
+      .button
+        display inline-block
+        margin 0 10px
+        text-decoration none
+        background button-color
+        border 1px button-border-color
+        color white
+        text-transform uppercase
+        font 16px/18px 'Arvo', sans-serif;
+        letter-spacing 1px
+        padding 10px 16px
+        box-shadow 0px 0px 10px 0px button-border-color
+        animation pulsate 2s ease-in-out;
+        animation-iteration-count: infinite; 
+        animation-fill-mode: both
+        animation-direction: alternate
+        transition box-shadow 2.5s
+
+        &:first-child
+          margin-left 0
+
+
+#about
+  image '/images/slc.png' 1440px 470px
+  height 470px
+  position relative
+
+  .about-text
+    align(direction = vertical)
+

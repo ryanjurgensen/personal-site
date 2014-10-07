@@ -61,12 +61,51 @@ full_intro_height = 661px
         &:first-child
           margin-left 0
 
++mobile()
+  #intro
+    margin-top auto
+    height auto
 
-#about
-  image '/images/slc.png' 1440px 470px
-  height 470px
-  position relative
+    #intro-image
+      background-size 100% 184px
+      height 184px
+      position static
+      z-index 9
 
-  .about-text
-    align(direction = vertical)
+    #intro-text-container
+      position static
+      z-index 10
+      image '/images/slc.png' 850px 390px
+      height 330px
+
+      #intro-text
+        height auto
+        width auto
+        background rgba(4, 56, 114, 0.71)
+        padding 20px
+        width 100%
+        height 100%
+        font-family 'Lato'
+        color white
+        h1
+          margin-bottom 20px
+          font-size 20px
+          line-height 26px
+        h2, h4
+          margin-bottom 14px
+          font-size 14px
+          line-height 20px
+        .button
+          margin 10px 0px
+          font 14px/16px 'Arvo', sans-serif;
+          padding 8px 14px
+
+
+// #about
+//   image '/images/slc.png' 1440px 470px
+//   height 470px
+//   position relative
+
+//   .about-text
+//     align(direction = vertical)
 

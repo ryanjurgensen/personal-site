@@ -30,92 +30,55 @@ pre
   font-family 'Lato'
   color white
 
+@import 'logo'
+
 @import 'intro'
 
-#portfolio
-  padding 0 40px
-  h2
-    text-align left
-    text-decoration underline
-    margin 40px 20px
-    font 36px/48px 'Arvo', sans-serif;
-    text-transform: uppercase;
+@import 'portfolio'
 
-portfolio-width = 1440px - 80
-portfolio-gutter = (10px / portfolio-width) * 100
+@import 'tiles'
 
-.tile
-  width 25%
-  margin-bottom 10px
-  box-shadow 0 1px 2px 0 rgba(0, 0, 0, 0.22)
-  position relative
-  font-family 'Lato'
+// portfolio-width = 1440px - 80
+// portfolio-gutter = (10px / portfolio-width) * 100
 
-  .large &
-    col(1/2, cycle: 2, gutter: portfolio-gutter )
-    h3
-      font-size 22px
+// .tile
+//   width 25%
+//   margin-bottom 10px
+//   box-shadow 0 1px 2px 0 rgba(0, 0, 0, 0.22)
+//   position relative
+//   font-family 'Lato'
 
-  .med &
-    col(1/3, cycle: 3, gutter: portfolio-gutter )
+//   .large &
+//     col(1/2, cycle: 2, gutter: portfolio-gutter )
+//     h3
+//       font-size 22px
 
-  .small &
-    col(1/4, cycle: 4, gutter: portfolio-gutter )
+//   .med &
+//     col(1/3, cycle: 3, gutter: portfolio-gutter )
 
-  img
-    width 100%
+//   .small &
+//     col(1/4, cycle: 4, gutter: portfolio-gutter )
 
-  h3
-    //absolute bottom left
-    //color white
-    display block
+//   img
+//     width 100%
+
+//   h3
+//     //absolute bottom left
+//     //color white
+//     display block
     
-    text-transform uppercase
-    font-weight bold
-    padding 15px
-    padding-bottom 0
-    border-top 1px solid #e7e7e7
-    width 100%
-    //text-align center
-    //background-color rgba(0, 39, 88, 0.61)
+//     text-transform uppercase
+//     font-weight bold
+//     padding 15px
+//     padding-bottom 0
+//     border-top 1px solid #e7e7e7
+//     width 100%
+//     //text-align center
+//     //background-color rgba(0, 39, 88, 0.61)
   
-  .details
-    margin 7px 0 15px 0
-    padding 0 15px
-
-
-    
-
-.tile-row
-  clearfix();
-  margin-bottom 25px
-  padding 10px
-  box-shadow 0 1px 2px 0 rgba(0, 0, 0, 0.22)
-  font-family 'Lato'
-  img
-    col(2/6)
-
-  .description
-    col(4/6)
-
-  h3
-    font-size 28px
-    margin-bottom 20px
-    text-transform uppercase
-
-  p
-    margin-bottom 15px
-      
-  small
-    color #C9C5C5
-    font-style italic
-    display block
-    padding 3px 0
-    font-size 14px
-
-  &.small
-    col(1/2, cycle:2)
-    min-height 220px
+//   .details
+//     margin 7px 0 15px 0
+//     padding 0 15px
 
 @keyframes pulsate{
   from{
@@ -130,4 +93,3 @@ portfolio-gutter = (10px / portfolio-width) * 100
   box-sizing: initial !important;
 
 @import 'contact-bar'
-@import 'logo'

@@ -1,4 +1,4 @@
-@import url("http://fonts.googleapis.com/css?family=Lato|Arvo:400,700");
+@import url("http://fonts.googleapis.com/css?family=Lato:400,800|Arvo:400,700");
 @import url("sweet-alert.css");
 html,
 body,
@@ -439,8 +439,9 @@ pre {
   font-size: 16px;
   display: none;
 }
-#email span.or {
-  display: block;
+#email strong {
+  font-weight: 800;
+  color: #b9ccff;
 }
 .expanded #email {
   display: block;

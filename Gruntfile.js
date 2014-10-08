@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     bower: {
 	    install: {
 	    	options:{
-	    		targetDir: 'public/scripts/deps/'
+	    		targetDir: 'public/scripts/deps/bower'
 	    	}
 	    }
 	  },
@@ -42,9 +42,9 @@ module.exports = function(grunt) {
 	      src: [
 	      	'public/scripts/deps/bower/jquery/jquery.js',
 	      	'public/scripts/deps/bower/jquery.scrollTo/jquery.scrollTo.js',
+	      	'public/scripts/deps/bower/sweetalert/sweet-alert.js',
 	      	'public/scripts/deps/raf.js',
 	      	'public/scripts/deps/ga.js',
-	      	'public/scripts/deps/bower/sweetalert/sweet-alert.js',
 	      ],
 	      dest: 'public/scripts/deps.js',
 	    },
@@ -58,5 +58,6 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['bower:install', 'concat:deps', 'express:dev', 'watch' ])
+  grunt.registerTask('prod', ['bower:install', 'concat:deps'])
 
 };

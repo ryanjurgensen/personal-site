@@ -38,6 +38,7 @@
   animation-delay: 1s;
   height 100px
   transition .4s height
+  z-index 13
   
   &.expanded
     height 200px
@@ -95,6 +96,35 @@
         display inline-block
         padding 0 0 4px 5px
         font-size 18px
+
++mobile()
+  #contact-bar
+    #contact-form
+      h3
+        stack()
+        text-align center
+      form
+        stack()
+        input, textarea
+          col()
+          margin-top 10px
+        #contactSend
+          col(1/3, offset: 2/3)
+          text-align center
+    &.expanded
+      height 430px
+      h3 .arrow
+        -webkit-transform: rotate(90deg)
+        -moz-transform: rotate(90deg)
+        -o-transform: rotate(90deg)
+        -ms-transform: rotate(90deg)
+        transform: rotate(90deg)
+        padding 0px !important
+        margin 0px 0px 5px 5px
+    #email
+      position static
+      margin-top 5px
+      line-height 22px
 
     /*
     #shiny

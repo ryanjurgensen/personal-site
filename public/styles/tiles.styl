@@ -1,0 +1,56 @@
+.tile-row
+  clearfix();
+  margin-bottom 25px
+  padding 10px
+  box-shadow 0 1px 2px 0 rgba(0, 0, 0, 0.22)
+  font-family 'Lato'
+  img
+    col(2/6)
+
+  .description
+    col(4/6)
+
+    h3
+      font-size 28px
+      margin-bottom 20px
+      text-transform uppercase
+
+    p
+      margin-bottom 15px
+        
+    small
+      color #C9C5C5
+      font-style italic
+      display block
+      padding 3px 0
+      font-size 14px
+
+  &.small
+    col(1/2, cycle:2)
+    min-height 220px
+
++mobile()
+  .tile-row
+    img
+      stack()
+
+    .description
+      stack()
+
+      h3
+        font-size 20px
+        margin 20px 0px
+
+      p
+        margin-bottom 15px
+          
+      small
+        color #C9C5C5
+        font-style italic
+        display block
+        padding 3px 0
+        font-size 14px
+
+    &.small
+      col()
+      min-height auto

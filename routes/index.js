@@ -14,7 +14,7 @@ router.post('/contact', function(req, res){
   var name = req.body.name,
       email = req.body.email,
       message = req.body.message
-    mailgun = new mg.Mailgun(process.env.MAILGUNKEY);
+      mailgun = new mg.Mailgun(process.env.MAILGUNKEY);
 
   mailgun.sendText('ryan@ryanjurgensen.com', 
     ['ryan@ryanjurgensen.com'], 

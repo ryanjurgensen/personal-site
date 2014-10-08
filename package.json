@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": false,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "postinstall": "export HOME=app-root/runtime/repo; ./node_modules/grunt-cli/bin/grunt prod"
   },
   "main": "./bin/www",
   "dependencies": {
@@ -15,6 +16,7 @@
     "debug": "~2.0.0",
     "express": "~4.9.0",
     "express-session": "^1.8.2",
+    "grunt-cli": "^0.1.13",
     "jade": "~1.6.0",
     "jeet": "^6.1.1",
     "mailgun": "^0.5.0",

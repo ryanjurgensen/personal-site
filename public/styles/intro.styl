@@ -61,24 +61,27 @@ full_intro_height = 661px
         &:first-child
           margin-left 0
 
-+below(1024px)
+// +below(1024px)
+//   #intro
+//     margin-top 0px
+//     height auto
+
++at('phone-portrait')
   #intro
     margin-top 0px
     height auto
-
-+below(483px)
-  #intro
     #intro-image
-      background-size 100% 184px
+      background-size cover
+      background-repeat no-repeat
       height 184px
       position static
-      z-index 9
 
     #intro-text-container
-      position static
-      z-index 10
       image '/images/slc.png' 850px 390px
-      height 330px
+      position static
+      
+      // height 330px
+      width 100%
 
       #intro-text
         height auto
@@ -87,8 +90,8 @@ full_intro_height = 661px
         padding 20px
         width 100%
         height 100%
-        font-family 'Lato'
-        color white
+        // font-family 'Lato'
+        // color white
 
         h1
           margin-bottom 20px

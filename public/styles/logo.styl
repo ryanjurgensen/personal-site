@@ -15,7 +15,6 @@
     box-shadow 0 1px 2px 0 rgba(0, 0, 0, 0.22)
 
   h1
-    font 32px/38px 'Raleway', sans-serif
     color rgba(4, 56, 114, 0.71)
     text-shadow 0 0 1px #181818
     display none
@@ -38,7 +37,17 @@
       color #C0C0C0
       margin-right 20px
 
-+mobile()
++below(1024px)
   #fancy-logo
     position static
     height auto
+
++below(483px)
+  #fancy-logo
+    h1
+      font 32px/38px 'Raleway', sans-serif
+
++between(483px, 635px)
+  #fancy-logo
+    h1
+      font 38px/44px 'Raleway', sans-serif

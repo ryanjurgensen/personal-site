@@ -43,7 +43,7 @@ module.exports = function(grunt) {
 	      	'public/scripts/deps/bower/jquery/jquery.js',
 	      	'public/scripts/deps/bower/jquery.scrollTo/jquery.scrollTo.js',
 	      	'public/scripts/deps/raf.js',
-	      	'public/scripts/ga.js',
+	      	'public/scripts/deps/ga.js',
 	      	'public/scripts/deps/bower/sweetalert/sweet-alert.js',
 	      ],
 	      dest: 'public/scripts/deps.js',

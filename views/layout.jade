@@ -2,6 +2,7 @@ doctype html
 html
   head
     title= title
+    meta(name="viewport" content="initial-scale=1")
     script(src='/scripts/deps.js')
     script(src='//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js')
     script(src='/scripts/logo.js')
@@ -13,14 +14,7 @@ html
           h1 Ryan Jurgensen
           canvas(width="2040", height="100", id="mask")
           canvas(width="20000", height="100", id="background")
-          #logo-options
-              a(href='#', id="stop-logo") stop it!
-              a(href='#') show pictures
-              a(href='#', id="reload-logo") randomize
-              a(href='#') see code
-
-          script
-            | var logo = new portfolio.ScrollingLogo();
+          script var logo = new portfolio.ScrollingLogo();
       
       block content
 
@@ -33,6 +27,7 @@ html
             input#contactEmail(placeholder='Email', type="email", required)
             textarea#contactMessage(placeholder='Tell me about your project.')
             input(type="submit", value="Send")#contactSend
-        h4#email Or, send me an email at ryan@ryanjurgensen.com
+        h4#email Or, send me an email at #[strong ryan@ryanjurgensen.com]
 
+    script window.csrf = '#{csrfToken}';
     script(src='/scripts/main.js')

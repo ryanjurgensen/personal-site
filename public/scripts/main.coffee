@@ -14,6 +14,8 @@ $('#contactLink').click (e)->
   $('#contactName').focus()
 
 $('#contact-form form').submit (e)->
+  e.preventDefault()
+
   name = $('#contactName').val()
   email = $('#contactEmail').val()
   message = $('#contactEmail').val()
@@ -26,8 +28,14 @@ $('#contact-form form').submit (e)->
       allowOutsideClick: true
 
   else
-    swal 
-      title: "Thanks!"
-      text: "I'll get back to you as soon as possible."
-      type: "success"
-      allowOutsideClick: true
+    $.post '/contact/', 
+      name: name,
+      email: email,
+      message: message,
+      _csrf: window.csrf
+    , (data, statsus)->
+      swal 
+        title: "Thanks!"
+        text: "I'll get back to you as soon as possible."
+        type: "success"
+        allowOutsideClick: true

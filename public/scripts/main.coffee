@@ -19,7 +19,8 @@ $('#contact-form input').focus (e)->
 
 $('#portfolioLink').click (e)->
   e.preventDefault()
-  $.scrollTo '#portfolio', 500, {offset: -140}
+  offset = if $('#fancy-logo').hasClass('dynamic') then -140 else 0
+  $.scrollTo '#portfolio', 500, {offset: offset}
 
 $('#contactLink').click (e)->
   e.preventDefault()

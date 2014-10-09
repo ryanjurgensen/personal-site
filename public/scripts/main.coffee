@@ -4,6 +4,12 @@ expandContactBar = ()->
 hideContactBar = ()->
   $('#contact-bar').removeClass 'expanded'
 
+$('#contact-bar').on 'click', (e)->
+  if $(e.target).attr('id') is 'close'
+    hideContactBar()
+  else
+    expandContactBar()
+
 $('#contact-bar #close').click (e)->
   e.preventDefault()
   hideContactBar()

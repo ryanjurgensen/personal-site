@@ -48,15 +48,23 @@ module.exports = function(grunt) {
 	      ],
 	      dest: 'public/scripts/deps.js',
 	    },
-	  }
+	  },
+
+		uglify: {
+			prod: {
+				files: {
+				'public/scripts/deps.js': ['public/scripts/deps.js']
+				}
+			}
+		}
   });
 
   grunt.loadNpmTasks('grunt-express-server');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-bower-task');
-
-  // Default task(s).
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  
   grunt.registerTask('default', ['bower:install', 'concat:deps', 'express:dev', 'watch' ])
   grunt.registerTask('prod', ['bower:install', 'concat:deps'])
 

@@ -1,11 +1,25 @@
 #portfolio
-  padding 0 40px
+  
+  #tiles
+    margin-top 30px
+
   h2
-    text-align left
-    text-decoration underline
-    margin 40px 20px
+    text-align center
     font 36px/48px 'Arvo', sans-serif;
     text-transform: uppercase;
+    color white
+    background-color #2A5A7C
+
+  &.fixed
+    padding-top 48px
+
+    h2
+      position fixed
+      box-shadow 0 1px 2px 0 rgba(0, 0, 0, 0.22)
+      top 100px
+      margin 0 
+      width 100%
+
 
 +mobile()
   #portfolio

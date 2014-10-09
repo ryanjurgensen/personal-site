@@ -25,7 +25,6 @@ $('#portfolioLink').click (e)->
 $('#contactLink').click (e)->
   e.preventDefault()
   expandContactBar()
-  $('#contactName').focus()
 
 $('#contact-form form').submit (e)->
   e.preventDefault()
@@ -53,17 +52,3 @@ $('#contact-form form').submit (e)->
         text: "I'll get back to you as soon as possible."
         type: "success"
         allowOutsideClick: true
-
-'''
-headerOffset = 100
-$portfolioHeader = $('#portfolio h2')
-$portfolioSection = $('#portfolio');
-
-$(document).scroll (e)->
-  fixed = ($(window).scrollTop() + headerOffset) > $portfolioSection.offset().top
-  $portfolioHeader.width $portfolioSection.width()
-  $portfolioSection.toggleClass 'fixed', fixed
-
-$(document).resize (e)->
-  $portfolioHeader.width $portfolioSection.width()
-'''

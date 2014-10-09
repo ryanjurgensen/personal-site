@@ -66,6 +66,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   
   grunt.registerTask('default', ['bower:install', 'concat:deps', 'express:dev', 'watch' ])
-  grunt.registerTask('prod', ['bower:install', 'concat:deps'])
+  grunt.registerTask('prod', ['bower:install', 'concat:deps', 'uglify:prod'])
 
 };

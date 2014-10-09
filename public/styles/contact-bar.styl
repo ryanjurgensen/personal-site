@@ -79,7 +79,7 @@
       text-align center
 
     h3
-      font-size 22px
+      font-size 18px
       col(2/10)
       //width auto
       background-size 20px 30px
@@ -93,7 +93,7 @@
         padding 0 0 4px 5px
         font-size 18px
 
-+mobile()
++below('tablet-portrait')
   #contact-bar
     #contact-form
       h3
@@ -121,6 +121,26 @@
       position static
       margin-top 5px
       line-height 22px
+
++at('tablet-portrait')
+  #contact-bar
+    #contact-form
+      h3
+        font-size 26px
+        line-height 32px
+      form
+        input
+          col(1/2, cycle: 2)
+    &.expanded
+      height 375px
+
++at('tablet-landscape')
+  #contact-bar
+    #contact-form
+      h3
+        .arrow
+          display none
+        
 
     /*
     #shiny

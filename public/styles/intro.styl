@@ -66,7 +66,6 @@ full_intro_height = 661px
     height auto
 
 +below('phone-landscape')
-
   #intro
 
     #intro-image
@@ -110,7 +109,6 @@ full_intro_height = 661px
           padding 8px 14px
 
 +at('phone-landscape')
-
   #intro
     #intro-image
       display none
@@ -137,9 +135,31 @@ full_intro_height = 661px
       background linear-gradient(left, rgba(0,0,0,.8) 0%, rgba(255,255,255,0) 100%)
 
       #intro-text
-        width 71%
+        width 74%
+        padding 40px 0 0 40px
+
++at('tablet-portrait')
+  #intro
+    .colored-content
+      #intro-text
+        h1
+          margin-bottom 35px
+          font-size 48px
+          line-height 54px
+
+        h2, h4
+          margin-bottom 30px
+
+        h2
+          font-size 26px
+          line-height 34px
+
+        h4 
+          font-size 24px
+          line-height 32px
 
 +at('tablet-landscape')
   #intro
+    height auto
     #intro-text
       width 50% !important

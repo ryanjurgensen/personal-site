@@ -1,6 +1,13 @@
 expandContactBar = ()->
   $('#contact-bar').addClass 'expanded'
 
+hideContactBar = ()->
+  $('#contact-bar').removeClass 'expanded'
+
+$('#contact-bar #close').click (e)->
+  e.preventDefault()
+  hideContactBar()
+
 $('#contact-form input').focus (e)->
   expandContactBar()
 
@@ -39,3 +46,17 @@ $('#contact-form form').submit (e)->
         text: "I'll get back to you as soon as possible."
         type: "success"
         allowOutsideClick: true
+
+'''
+headerOffset = 100
+$portfolioHeader = $('#portfolio h2')
+$portfolioSection = $('#portfolio');
+
+$(document).scroll (e)->
+  fixed = ($(window).scrollTop() + headerOffset) > $portfolioSection.offset().top
+  $portfolioHeader.width $portfolioSection.width()
+  $portfolioSection.toggleClass 'fixed', fixed
+
+$(document).resize (e)->
+  $portfolioHeader.width $portfolioSection.width()
+'''

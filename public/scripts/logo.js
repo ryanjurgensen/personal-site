@@ -120,7 +120,7 @@ portfolio.ScrollingLogo = function(){
 			families: [ 'Raleway:800:latin']
 		},
 		active: $.proxy(function() {
-			if($(window).width() > 1024){
+			if($(window).width() >= 920){
 				this.start();
 			}
 			else{
@@ -211,7 +211,8 @@ portfolio.ScrollingLogo.prototype.hideFallback = function(){
 }
 
 portfolio.ScrollingLogo.prototype.resize = function(){
-	if ($(window).width() < 1024){
+	//console.log($(window).width() < 920)
+	if ($(window).width() < 920){
 		this.showFallback();
 	}
 	else{

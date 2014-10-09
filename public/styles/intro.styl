@@ -5,16 +5,15 @@ full_intro_height = 661px
   width 100%
   height full_intro_height
   position relative
+  overflow hidden
 
   #intro-image
-    retina 'http://res.cloudinary.com/codifex/image/upload/c_crop,g_north,h_1322,w_2820/c_scale,h_661,w_1440/v1412360803/me-src_mtalgk.jpg' 'http://res.cloudinary.com/codifex/image/upload/c_crop,fl_progressive,g_north,h_1322,w_2880/v1412360803/me-src_mtalgk.jpg' 1440px full_intro_height
-    width 100%
     height full_intro_height
     position absolute
     z-index 9
 
   #intro-text-container
-    position absolute
+    position relative
     z-index 10
 
   .colored-content
@@ -61,32 +60,31 @@ full_intro_height = 661px
         &:first-child
           margin-left 0
 
-// +below(1024px)
-//   #intro
-//     margin-top 0px
-//     height auto
-
-+at('phone-portrait')
++below('tablet-portrait')
   #intro
     margin-top 0px
     height auto
+
++below('phone-landscape')
+
+  #intro
+
     #intro-image
-      background-size cover
-      background-repeat no-repeat
-      height 184px
       position static
+      width 100%
+      height auto
 
     #intro-text-container
-      image '/images/slc.png' 850px 390px
-      position static
+      // FIX ME - WHY?!?!
+      margin-top -2px
       
-      // height 330px
-      width 100%
+      image '/images/slc.png' cover
+      position static
+
+      .colored-content
+        background rgba(4, 56, 114, 0.61)
 
       #intro-text
-        height auto
-        width auto
-        background rgba(4, 56, 114, 0.71)
         padding 20px
         width 100%
         height 100%
@@ -101,85 +99,47 @@ full_intro_height = 661px
           font-size 14px
           line-height 20px
 
+        .buttons
+          clearfix()
+
         .button
-          span(2/3, offset: 1/6)
+          span(1)
           margin 10px 0px
           text-align center   
           font 14px/16px 'Arvo', sans-serif;
           padding 8px 14px
 
-// +between(418px, 432px)
-//   #intro #intro-text-container #intro-text .button
-//       margin 30px 0px
-//       font 14px/16px 'Arvo', sans-serif
-//       padding 8px 14px
++at('phone-landscape')
 
-// +between(432px, 480px)
-//   #intro #intro-text-container #intro-text .button
-//       margin 10px 0px
-//       font 16px/18px 'Arvo', sans-serif
-//       padding 10px 16px
-
-+between(483px, 635px)
   #intro
     #intro-image
-      background-size 100% 250px
-      height 250px
-      position static
-      z-index 9
+      display none
 
     #intro-text-container
-      position relative
-      z-index 10
-      image '/images/slc.png' 850px 390px
-      height 385px
+      background-image url('http://res.cloudinary.com/codifex/image/upload/c_crop,g_north,h_1322,w_2820/c_scale,h_661,w_1440/v1412360803/me-src_mtalgk.jpg')
+      background-size cover
+
+      .colored-content
+        background rgba(0, 0, 0, 0.53)
 
       #intro-text
-        position absolute
-        height auto
-        width auto
-        background rgba(4, 56, 114, 0.71)
-        padding 25px
-        width 100%
-        height 100%
-        font-family 'Lato'
-        color white
-
-        h1
-          margin-bottom 25px
-          font-size 32px
-          line-height 38px
-
-        h2, h4
-          margin-bottom 15px
-
-        h2
-          font-size 20px
-          line-height 26px
-
-        h4 
-          font-size 16px
-          line-height 22px
-          
         .button
-          span(1/2, cycle: 1)
-          float left !important
-          margin 10px 0px
-          text-align center   
-          font 14px/16px 'Arvo', sans-serif;
-          padding 8px 14px
+          col(1/2)
+          text-align center
 
-+between(540px, 635px)
-  #intro #intro-text-container #intro-text 
-    h4 
-      font-size 18px
-      line-height 24px
++between('tablet-portrait', 'tablet-landscape')
+  #intro
+    #intro-image, #intro-text, .colored-content
+      width auto
+      height 600px
 
-// #about
-//   image '/images/slc.png' 1440px 470px
-//   height 470px
-//   position relative
+    .colored-content
+      background linear-gradient(left, rgba(0,0,0,.8) 0%, rgba(255,255,255,0) 100%)
 
-//   .about-text
-//     align(direction = vertical)
+      #intro-text
+        width 71%
 
++at('tablet-landscape')
+  #intro
+    #intro-text
+      width 50% !important

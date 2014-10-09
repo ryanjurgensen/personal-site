@@ -19,7 +19,8 @@
       margin-bottom 15px
         
     small
-      color #C9C5C5
+      // color #C9C5C5
+      color #777
       font-style italic
       display block
       padding 3px 0
@@ -48,6 +49,17 @@
       col()
       min-height auto
 
++at('phone-landscape')
+  .tile-row
+    .description
+      h3
+        font-size 20px
+
+    &.small
+      .description
+        h3
+          margin-top 15px
+
 +between('phone-landscape', 'tablet-portrait')
   .tile-row
     img
@@ -65,26 +77,26 @@
       .description
         stack()
 
-+at('phone-landscape')
-  .tile-row
-    .description
-      h3
-        font-size 20px
-
-    &.small
-      .description
-        h3
-          margin-top 15px
-
 +at('tablet-portrait')
   .tile-row
     .description
       h3
-        font-size 24px
+        font-size 26px
+
     &.small
       .description
         h3
           margin-top 25px
+
++between('tablet-portrait', 'tablet-landscape')
+  .tile-row
+    .description
+      p
+        font-size 18px
+        line-height 24px
+      small
+        font-size 16px
+        line-height 22px
 
 +at('tablet-landscape')
   .tile-row

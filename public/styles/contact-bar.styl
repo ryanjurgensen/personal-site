@@ -133,6 +133,14 @@
       margin-top 5px
       line-height 22px
 
++at('phone-landscape')
+  #contact-bar
+    &.expanded
+      height 345px
+
+    #email
+      display none
+
 +at('tablet-portrait')
   #contact-bar
     #contact-form
@@ -149,9 +157,13 @@
   #contact-bar
     #contact-form
       h3
+        font-size 15px
         .arrow
           display none
         
++between('tablet-landscape', 1200px)
+  .arrow
+    display none !important
 
     /*
     #shiny

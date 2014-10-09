@@ -14,3 +14,4 @@ bower_components
 lib
 public/scripts/deps/bower
 public/styles/style.css
+public/scripts/deps.js

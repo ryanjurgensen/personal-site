@@ -120,7 +120,6 @@ portfolio.ScrollingLogo = function(){
 			families: [ 'Raleway:800:latin']
 		},
 		active: $.proxy(function() {
-
 			if(this.supportedBrowser() && $(window).width() >= 920){
 				this.start();
 			}
@@ -208,7 +207,6 @@ portfolio.ScrollingLogo.prototype.hideFallback = function(){
 	$('#mask').show();
 	$('#background').fadeIn('slow');
 	$('html').addClass('logo-enabled');
-
 }
 
 portfolio.ScrollingLogo.prototype.resize = function(){
@@ -282,5 +280,5 @@ portfolio.ScrollingLogo.prototype.getRandomImages = function(allImagePaths) {
 }
 
 portfolio.ScrollingLogo.prototype.supportedBrowser = function() {
-	return  !conditionizr.ie8 && !conditionizr.ie9 && !conditionizr.ie10
+	return  conditionizr.ie8 && !conditionizr.ie9 && !conditionizr.ie10
 }

@@ -2,10 +2,11 @@
   z-index 11
   background-color #fff
   width 100%
+  fixed top left
+  height 100px
 
-  .logo-enabled &
-    fixed top left
-    height 100px
+  .logo-disabled &
+    position static
 
   canvas
     absolute top left
@@ -15,8 +16,8 @@
   h1
     //color rgba(4, 56, 114, 0.71)
     font-size 80px
-    font-weight 400
-    //font-family 'Raleway'
+    line-height 100px
+    font-family 'Raleway'
     text-shadow 0 0 1px #181818
     display none
     text-align center

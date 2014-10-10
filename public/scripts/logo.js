@@ -196,17 +196,11 @@ portfolio.ScrollingLogo.prototype.createMask = function(){
 
 // When loaded on mobile, or if they manually diable the logo.
 portfolio.ScrollingLogo.prototype.showFallback = function(){
-	$('#fancy-logo canvas').hide();
-	$('#fancy-logo h1').show();
-	$('html').removeClass('logo-enabled');
-
+	$('html').removeClass('logo-enabled').addClass('logo-disabled');
 }
 
 portfolio.ScrollingLogo.prototype.hideFallback = function(){
-	$('#fancy-logo h1').hide();
-	$('#mask').show();
-	$('#background').fadeIn('slow');
-	$('html').addClass('logo-enabled');
+	$('html').addClass('logo-enabled').removeClass('logo-disabled');
 }
 
 portfolio.ScrollingLogo.prototype.resize = function(){

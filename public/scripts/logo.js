@@ -117,10 +117,11 @@ portfolio.ScrollingLogo = function(){
 
 	WebFont.load({
 		google: {
-			families: [ 'Raleway:800:latin']
+			families: [ 'Raleway:800,400:latin']
 		},
 		active: $.proxy(function() {
-			if($(window).width() >= 920){
+
+			if(this.supportedBrowser() && $(window).width() >= 920){
 				this.start();
 			}
 			else{
@@ -137,7 +138,7 @@ portfolio.ScrollingLogo.prototype.start = function(){
 
 	$(window).on('resize', this.resize.bind(this));
 
-	$('#fancy-logo').addClass('dynamic');
+	$('html').addClass('logo-enabled');
 	$('#stop-logo').click(this.showFallback);
 	$('#reload-logo').click(this.reload.bind(this));
 
@@ -198,7 +199,7 @@ portfolio.ScrollingLogo.prototype.createMask = function(){
 portfolio.ScrollingLogo.prototype.showFallback = function(){
 	$('#fancy-logo canvas').hide();
 	$('#fancy-logo h1').show();
-	$('#fancy-logo').removeClass('dynamic');
+	$('html').removeClass('logo-enabled');
 
 }
 
@@ -206,7 +207,7 @@ portfolio.ScrollingLogo.prototype.hideFallback = function(){
 	$('#fancy-logo h1').hide();
 	$('#mask').show();
 	$('#background').fadeIn('slow');
-	$('#fancy-logo').addClass('dynamic');
+	$('html').addClass('logo-enabled');
 
 }
 
@@ -278,4 +279,8 @@ portfolio.ScrollingLogo.prototype.getRandomImages = function(allImagePaths) {
 
 	allImagePaths.length = this.imageCount;
 	return allImagePaths;
+}
+
+portfolio.ScrollingLogo.prototype.supportedBrowser = function() {
+	return  !conditionizr.ie8 && !conditionizr.ie9 && !conditionizr.ie10
 }

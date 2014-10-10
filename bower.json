@@ -19,6 +19,7 @@
   "dependencies": {
     "jquery": "~2.1.1",
     "jquery.scrollTo": "~1.4.13",
-    "sweetalert": "~0.1.0"
+    "sweetalert": "~0.1.0",
+    "conditionizr": "~4.5.0"
   }
 }

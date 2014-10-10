@@ -43,6 +43,12 @@ module.exports = function(grunt) {
 	      	'public/scripts/deps/bower/jquery/jquery.js',
 	      	'public/scripts/deps/bower/jquery.scrollTo/jquery.scrollTo.js',
 	      	'public/scripts/deps/bower/sweetalert/sweet-alert.js',
+	      	
+	      	'public/scripts/deps/bower/conditionizr/dist/conditionizr.min.js',
+	      	'public/scripts/deps/bower/conditionizr/detects/ie8.js',
+	      	'public/scripts/deps/bower/conditionizr/detects/ie9.js',
+	      	'public/scripts/deps/bower/conditionizr/detects/ie10.js',
+	      	
 	      	'public/scripts/deps/raf.js',
 	      	'public/scripts/deps/ga.js',
 	      ],

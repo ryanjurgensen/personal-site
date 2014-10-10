@@ -280,5 +280,5 @@ portfolio.ScrollingLogo.prototype.getRandomImages = function(allImagePaths) {
 }
 
 portfolio.ScrollingLogo.prototype.supportedBrowser = function() {
-	return  conditionizr.ie8 && !conditionizr.ie9 && !conditionizr.ie10
+	return  !conditionizr.ie8 && !conditionizr.ie9 && !conditionizr.ie10
 }

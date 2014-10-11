@@ -1,40 +1,43 @@
-.tile-row
-  clearfix();
+large_image_width = 500px;
+small_image_width = 250px;
+
+.tile
   margin-bottom 25px
   padding 10px
   box-shadow 0 1px 2px 0 rgba(0, 0, 0, 0.22)
-  font-family 'Lato'
+  clearfix()
+
   img
-    col(2/6)
+    float left
+    margin-right 30px
+    width large_image_width
 
-  .description
-    col(4/6)
+  h3
+    font-size 28px
+    margin-bottom 20px
+    text-transform uppercase
 
-    h3
-      font-size 28px
-      margin-bottom 20px
-      text-transform uppercase
+  p
+    margin-bottom 15px
+      
+  small
+    color #777
+    font-style italic
+    display block
+    padding 3px 0
+    font-size 14px
 
-    p
-      margin-bottom 15px
-        
-    small
-      // color #C9C5C5
-      color #777
-      font-style italic
-      display block
-      padding 3px 0
-      font-size 14px
-
-  &.small
-    col(1/2, cycle:2)
-    min-height 220px
+  .smaller &
+    col(1/2, cycle: 2)
+    min-height 270px
+    img
+      width small_image_width
 
     h3
       font-size 22px
 
 +at('phone-portrait')
-  .tile-row
+  .tile
     img
       stack()
 
@@ -45,23 +48,23 @@
         font-size 20px
         margin 20px 0px
 
-    &.small
+    .smaller &
       col()
       min-height auto
 
 +at('phone-landscape')
-  .tile-row
+  .tile
     .description
       h3
         font-size 20px
 
-    &.small
+    .smaller &
       .description
         h3
           margin-top 15px
 
 +between('phone-landscape', 'tablet-portrait')
-  .tile-row
+  .tile
     img
       col(1/2)
 
@@ -70,7 +73,7 @@
       h3
         margin-bottom 15px
 
-    &.small
+    .smaller &
       img
         stack()
 
@@ -78,18 +81,18 @@
         stack()
 
 +at('tablet-portrait')
-  .tile-row
+  .tile
     .description
       h3
         font-size 26px
 
-    &.small
+    .smaller &
       .description
         h3
           margin-top 25px
 
 +between('tablet-portrait', 'tablet-landscape')
-  .tile-row
+  .tile
     .description
       p
         font-size 18px
@@ -99,8 +102,8 @@
         line-height 22px
 
 +at('tablet-landscape')
-  .tile-row
-    &.small
+  .tile
+    .smaller &
       img
         col(1/2)
 

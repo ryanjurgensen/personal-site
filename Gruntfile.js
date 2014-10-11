@@ -44,16 +44,22 @@ module.exports = function(grunt) {
 	      	'public/scripts/deps/bower/jquery.scrollTo/jquery.scrollTo.js',
 	      	'public/scripts/deps/bower/sweetalert/sweet-alert.js',
 	      	
-	      	'public/scripts/deps/bower/conditionizr/dist/conditionizr.min.js',
-	      	'public/scripts/deps/bower/conditionizr/detects/ie8.js',
-	      	'public/scripts/deps/bower/conditionizr/detects/ie9.js',
-	      	'public/scripts/deps/bower/conditionizr/detects/ie10.js',
+	      	
 	      	
 	      	'public/scripts/deps/raf.js',
 	      	'public/scripts/deps/ga.js',
 	      ],
 	      dest: 'public/scripts/deps.js',
 	    },
+	    conditionizr: {
+	    	src: [
+	    		'public/scripts/deps/bower/conditionizr/dist/conditionizr.min.js',
+		      'public/scripts/deps/bower/conditionizr/detects/ie8.js',
+		      'public/scripts/deps/bower/conditionizr/detects/ie9.js',
+		      'public/scripts/deps/bower/conditionizr/detects/ie10.js'
+	    	],
+	    	dest: 'public/scripts/conditionizr.js'
+	    }
 	  },
 
 		uglify: {
@@ -71,7 +77,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   
-  grunt.registerTask('default', ['bower:install', 'concat:deps', 'express:dev', 'watch' ])
+  grunt.registerTask('default', ['bower:install', 'concat', 'express:dev', 'watch' ])
   grunt.registerTask('prod', ['bower:install', 'concat:deps', 'uglify:prod'])
 
 };

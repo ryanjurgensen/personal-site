@@ -1,3 +1,9 @@
+conditionizr.config
+  tests: 
+    'ie8': ['class'],
+    'ie9': ['class'],
+    'ie10': ['class']
+  
 expandContactBar = ()->
   $('#contact-bar').addClass 'expanded'
 
@@ -24,7 +30,11 @@ $('#portfolioLink').click (e)->
 
 $('#contactLink').click (e)->
   e.preventDefault()
-  expandContactBar()
+
+  if !conditionizr.ie8 && !conditionizr.ie9 && !conditionizr.ie10
+    expandContactBar()
+  else
+    $.scrollTo '#closing', 500
 
 $('#contact-form form').submit (e)->
   e.preventDefault()

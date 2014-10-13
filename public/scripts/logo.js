@@ -120,6 +120,7 @@ portfolio.ScrollingLogo = function(){
 			families: [ 'Raleway:800:latin']
 		},
 		active: $.proxy(function() {
+			$(window).on('resize', this.resize.bind(this));
 			if(this.supportedBrowser() && $(window).width() >= 920){
 				this.start();
 			}
@@ -134,8 +135,6 @@ portfolio.ScrollingLogo.prototype.start = function(){
 	$(document).scroll(function(e){
 		requestAnimationFrame(this.scrollHandler.bind(this));
 	}.bind(this));
-
-	$(window).on('resize', this.resize.bind(this));
 
 	$('html').addClass('logo-enabled');
 	$('#stop-logo').click(this.showFallback);
@@ -204,12 +203,12 @@ portfolio.ScrollingLogo.prototype.hideFallback = function(){
 }
 
 portfolio.ScrollingLogo.prototype.resize = function(){
-	//console.log($(window).width() < 920)
 	if ($(window).width() < 920){
 		this.showFallback();
 	}
 	else{
 		this.createMask();
+		this.loadImages();
 		this.hideFallback();
 	}
 }

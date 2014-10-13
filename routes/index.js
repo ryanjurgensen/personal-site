@@ -5,7 +5,7 @@ var mg = require('mailgun');
 
 router.get('/', function(req, res) {
   res.render('index', { 
-    title: 'Ryan Jurgensen - Freelance Web Developer', 
+    title: 'Ryan Jurgensen - Freelance software engineer, web developer and startup creator.', 
     csrfToken: req.csrfToken() 
   });
 });
